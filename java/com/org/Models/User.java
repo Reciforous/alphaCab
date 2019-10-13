@@ -15,16 +15,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class User {
-    public Integer id;
-    public String email;
-    public String password;
-    public String type;
+    public Integer id = null;
+    public String email = null;
+    public String password = null;
+    public String type = null;
+    public Integer customer_id = null;
+    public Integer driver_id = null;
 
     public User(){
         this.id = null;
         this.email = null;
         this.password = null;
         this.type = null;
+        this.customer_id = null;
+        this.driver_id = null;
     }
 
     public User(Integer id, String email, String password, String type){
@@ -45,12 +49,17 @@ public class User {
 
     public Message createTable(){
         Message message = new Message();
-        String sql = "create table users(" +
-            "id int NOT NULL AUTO_INCREMENT," +
-            "email varchar(300) NOT NULL," +
-            "password varchar(300) NOT NULL," +
-            "type text NOT NULL," +
-            "PRIMARY KEY (id))";
+        String sql = "CREATE TABLE Users (\n" +
+                "   id int NOT NULL AUTO_INCREMENT,\n" +
+                "   email varchar(300) NOT NULL UNIQUE,\n" +
+                "   password varchar(300) NOT NULL,\n" +
+                "   type text NOT NULL,\n" +
+                "   cid int,\n" +
+                "   did varchar(10),\n" +
+                "   FOREIGN KEY (cid) REFERENCES Customer (id),\n" +
+                "   FOREIGN KEY (did) REFERENCES Drivers (Registration),\n" +
+                "   PRIMARY KEY (id)\n" +
+                ");\n";
 
         Db db = new Db();
         db.getConnection();
