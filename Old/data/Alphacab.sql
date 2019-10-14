@@ -96,8 +96,19 @@ INSERT INTO Users (email, password, type, cid, did) VALUES
 ('johnsmith@example.com', 'driver123', 'driver', NULL, 'AK52VZV'),
 ('mehmetaydin@example.com', 'driver123', 'driver', NULL, 'BN60WKA'),
 ('markjohnson@example.com', 'driver123', 'driver', Null, 'R34AKP')
+('zain@example.com', 'admin123', 'admin', NULL, NULL),
+('nasru@example.com', 'admin123', 'admin', NULL, NULL),
+('shaaik@example.com', 'admin123', 'admin', NULL, NULL),
+('shimaanath@example.com', 'admin123', 'admin', NULL, NULL),
+('imma@example.com', 'admin123', 'admin', NULL, NULL),
+
 
 CREATE TABLE Transactions (
-   id int NOT NULL AUTO_INCREMENT
-)
+   id int NOT NULL AUTO_INCREMENT,
+   journey_id int NOT NULL,
+   transaction_date TIMESTAMP NOT NULL,
+   amount FLOAT NOT NULL,
+   FOREIGN KEY (journey_id) REFERENCES Journey (jid),
+   PRIMARY KEY (id)
+);
 
