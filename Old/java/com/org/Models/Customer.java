@@ -52,6 +52,12 @@ public class Customer {
         return message;
     }
 
+//    public static Customer getById(Integer id){
+//        Customer customer = new Customer;
+//        String sql = "select name, address from Customer where id = ?";
+//
+//    }
+
     public Message add(){
         Message message = new Message();
         String sql = "insert into Customer (id, name, address) values (?, ?, ?)";
