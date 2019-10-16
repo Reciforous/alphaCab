@@ -1,6 +1,7 @@
 package com.org.Helpers;
 
 import javax.servlet.http.Part;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Functions {
@@ -11,7 +12,16 @@ public class Functions {
                 return content.substring(content.indexOf("=") + 2, content.length() - 1);
         }
 
-        return "dummy.txt";
+        return null;
+    }
+
+    public static void closeDbConnection(Connection conn){
+        try{
+            conn.close();
+        }
+        catch (SQLException e){
+            Functions.printSQLError(e);
+        }
     }
 
     public static void printSQLError(SQLException e){
