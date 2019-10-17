@@ -1,8 +1,11 @@
 package com.org.Models;
 
+import com.org.Helpers.Functions;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Db {
     private static final String CONNECTION_URI = "jdbc:mysql://localhost:3306/alphacab";
@@ -14,7 +17,6 @@ public class Db {
     }
 
     public void getConnection(){
-
         try{
             this.connection = DriverManager.getConnection(CONNECTION_URI, "root", "FragMent@44569");
         }
@@ -23,6 +25,23 @@ public class Db {
             System.out.println("message: " + e.getMessage());
             System.out.println("error code:" + e.getErrorCode());
             this.connection = null;
+        }
+    }
+
+    // USE WITH CAUTION!
+    public void nuke(){
+        // This is the mother load of roflmao
+        String sql = "DROP Database";
+        this.getConnection();
+
+        try(Statement stmt = this.connection.createStatement()){
+            stmt.executeUpdate(sql);
+        }
+        catch (SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally {
+            Functions.closeDbConnection(this.connection);
         }
     }
 }
