@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.function.Function;
 
 public class Demand {
     public Integer id = null;
@@ -42,7 +43,7 @@ public class Demand {
         this.status = status;
     }
 
-    public Message createTable(){
+    public static Message createTable(){
         Message message = new Message();
         String sql = "CREATE TABLE Demands (\n" +
                 "  id int NOT NULL,\n" +
@@ -114,6 +115,56 @@ public class Demand {
                 String status = rs.getString("Status");
                 Demand demand = new Demand(id, name, address, destination, date, status);
 
+                demands.add(demand);
+            }
+        }
+        catch (SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally {
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return demands;
+    }
+
+    public static ArrayList<Demand> getDemandsByCustomer (Customer customer){
+        if(customer.name == null){
+            throw new IllegalArgumentException("Error: Missing required fields");
+        }
+
+        ArrayList<Demand> demands = new ArrayList<>();
+        String sql = "SELECT id, Address, Destination, Date, Time, Status FROM Demands WHERE Name = ?";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setString(1, customer.name);
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                Integer id = rs.getInt("id");
+                String address = rs.getString("Address");
+                String destination = rs.getString("Destination");
+
+                // MORE BAD IMPLEMENTATIONS
+                java.sql.Date dbdate = rs.getDate("Date");
+                java.sql.Time dbtime = rs.getTime("Time");
+
+                Date date = null;
+
+                try{
+                    date = sdf.parse(dbdate.toString() + " " + dbtime.toString());
+                }
+                catch (ParseException e){
+                    System.out.println("Error: Cannot parse date");
+                }
+
+                String status = rs.getString("Status");
+
+                Demand demand = new Demand(id, customer.name, address, destination, date, status);
                 demands.add(demand);
             }
         }
