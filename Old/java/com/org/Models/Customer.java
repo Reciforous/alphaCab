@@ -5,15 +5,17 @@ import com.org.Helpers.Functions;
 import com.org.Models.Db;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.function.Function;
 
 public class Customer {
     public Integer id = null;
     public String name = null;
     public String address = null;
 
-    public Message createTable(){
+    public static Message createTable(){
         Message message = new Message();
         String sql = "CREATE TABLE Customer (\n" +
                 "  Name varchar(20),\n" +
@@ -52,21 +54,75 @@ public class Customer {
         return message;
     }
 
-//    public static Customer getById(Integer id){
-//        Customer customer = new Customer;
-//        String sql = "select name, address from Customer where id = ?";
-//
-//    }
+    public void get(Integer id){
+        if(this.id == null){
+            throw new IllegalArgumentException("Error: Missing required fields");
+        }
 
-    public Message add(){
-        Message message = new Message();
-        String sql = "insert into Customer (id, name, address) values (?, ?, ?)";
+        String sql = "SELECT Name, Address from Customer WHERE id = ?";
 
         Db db = new Db();
         db.getConnection();
 
         try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
             pstmt.setInt(1, this.id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                this.name = rs.getString("Name");
+                this.address = rs.getString("Address");
+            }
+            else{
+                System.out.println("Error: No Result");
+            }
+        }
+        catch (SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally {
+            Functions.closeDbConnection(db.connection);
+        }
+
+    }
+
+    public void getByName(){
+        if(this.name == null){
+            throw new IllegalArgumentException("Error: Missing required fields");
+        }
+
+        String sql = "Select id, Address from Customer where Name = ?";
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setString(1, this.name);
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                this.id = rs.getInt("id");
+                this.address = rs.getString("Address");
+            }
+            else{
+                System.out.println("Error: No Such Customer");
+            }
+        }
+        catch (SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally {
+            Functions.closeDbConnection(db.connection);
+        }
+
+    }
+
+    public Message add(){
+        Message message = new Message();
+        String sql = "insert into Customer (id, Name, Address) values ((SELECT MAX(id) FROM Customer as x) + 1 ,?, ?)";
+
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
             pstmt.setString(2, this.name);
             pstmt.setString(3, this.address);
             pstmt.executeUpdate();
