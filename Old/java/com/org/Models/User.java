@@ -2,17 +2,12 @@ package com.org.Models;
 
 import com.org.Helpers.Functions;
 import com.org.Helpers.Message;
-import com.org.Models.Db;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class User {
     public Integer id = null;
@@ -20,7 +15,7 @@ public class User {
     public String password = null;
     public String type = null;
     public Integer customer_id = null;
-    public Integer driver_id = null;
+    public String driver_id = null;
 
     public User(){
         this.id = null;
@@ -38,6 +33,26 @@ public class User {
         this.type = type;
     }
 
+    public User(String email, String password, String type){
+        this.email = email;
+        this.password = password;
+        this.type = type;
+    }
+
+    public User(String email, String password, String type, Integer customer_id){
+        this.email = email;
+        this.password = password;
+        this.type = type;
+        this.customer_id = customer_id;
+    }
+
+    public User(String email, String password, String type, String driver_id){
+        this.email = email;
+        this.password = password;
+        this.type = type;
+        this.driver_id = driver_id;
+    }
+
     public User(String email, String password){
         this.email = email;
         this.password = password;
@@ -47,7 +62,7 @@ public class User {
         this.email = email;
     }
 
-    public Message createTable(){
+    public static Message createTable(){
         Message message = new Message();
         String sql = "CREATE TABLE Users (\n" +
                 "   id int NOT NULL AUTO_INCREMENT,\n" +
@@ -98,7 +113,7 @@ public class User {
             throw new IllegalArgumentException("Error: Missing required fields");
         }
 
-        String sql = "select id, email, type from users where id = ?";
+        String sql = "select id, email, type, cid, did from users where id = ?";
         Db db = new Db();
         db.getConnection();
 
@@ -110,6 +125,8 @@ public class User {
             this.id = rs.getInt("id");
             this.email = rs.getString("email");
             this.type = rs.getString("type");
+            this.customer_id = rs.getInt("cid");
+            this.driver_id = rs.getString("did");
         }
         catch (SQLException e){
             Functions.printSQLError(e);
@@ -124,12 +141,12 @@ public class User {
         }
     }
 
-    public void get_by_email(){
+    public void getByEmail(){
         if(this.email == null){
             throw new IllegalArgumentException("Error: Missing required fields");
         }
 
-        String sql = "Select id, email, password, type from users where email = ?";
+        String sql = "Select id, email, password, type, cid, did from Users where email = ?";
         Db db = new Db();
         db.getConnection();
 
@@ -143,9 +160,11 @@ public class User {
                 this.email = rs.getString("email");
                 this.password = rs.getString("password");
                 this.type = rs.getString("type");
+                this.customer_id = rs.getInt("cid");
+                this.driver_id = rs.getString("did");
             }
             else{
-                System.out.println("WHY ARE YOU EMPTY FUCK BITCH?!");
+                System.out.println("No such email address!");
             }
         }
         catch (SQLException e){
@@ -175,7 +194,15 @@ public class User {
 
     public Message add(){
         Message message = new Message();
-        String sql = "insert into users(email, password, type) values(?, ?, ?)";
+
+        // Handle this here since jdbc doesnt really handle null types well
+        String sql = "INSERT INTO Users(email, password, type) VALUES(?, ?, ?)";
+        if(this.customer_id != null){
+            sql = "insert into Users(email, password, type, cid) values(?, ?, ?, ?)";
+        }
+        else if(this.driver_id != null){
+            sql = "insert into Users(email, password, type, did) values(?, ?, ?, ?)";
+        }
 
         Db db = new Db();
         db.getConnection();
@@ -184,6 +211,14 @@ public class User {
             pstmt.setString(1, this.email);
             pstmt.setString(2, this.password);
             pstmt.setString(3, this.type);
+
+            if(this.customer_id != null){
+                pstmt.setInt(4, this.customer_id);
+            }
+            else if(this.driver_id != null){
+                pstmt.setString(4, this.driver_id);
+            }
+
             pstmt.executeUpdate();
 
             message = new Message(
@@ -212,11 +247,45 @@ public class User {
         return message;
     }
 
+    public Message update(){
+        Message message = new Message();
+        String sql = "UPDATE Users SET email = ?, password = ?, type = ? where id = ?";
+
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setString(1, this.email);
+            pstmt.setString(2, this.password);
+            pstmt.setString(3, this.type);
+            pstmt.executeUpdate();
+
+            message = new Message(
+                    true,
+                    "User updated successfully",
+                    "success"
+            );
+        }
+        catch (SQLException e){
+            message = new Message(
+                    false,
+                    "Error: " + e.getMessage(),
+                    "error"
+            );
+            Functions.printSQLError(e);
+        }
+        finally {
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return message;
+    }
+
     public Cookie login(){
         Cookie cookie = null;
 
         User check_user = new User(this.email);
-        check_user.get_by_email();
+        check_user.getByEmail();
 
         if(check_user.email == null){
             check_user = null;
