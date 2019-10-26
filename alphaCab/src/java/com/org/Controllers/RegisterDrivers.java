@@ -23,7 +23,7 @@ public class RegisterDrivers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
-            request.getRequestDispatcher("/views/driver/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/admin/drivers/register.jsp").forward(request, response);
         }
         catch (ServletException e){
             response.getWriter().print("There was an error handling your request, Please go back!\n" + e.getMessage());
@@ -41,7 +41,7 @@ public class RegisterDrivers extends HttpServlet {
         Driver driver = new Driver(name, registration);           
         Message message = driver.add();
         System.out.println(message.content);
-        response.sendRedirect("/alphaCab/admin/home");
+        response.sendRedirect("/alphaCab/admin/drivers");
  
     }
 }

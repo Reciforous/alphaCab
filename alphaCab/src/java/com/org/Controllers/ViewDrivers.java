@@ -30,7 +30,7 @@ public class ViewDrivers extends HttpServlet {
             
             request.setAttribute("drivers", drivers);
 
-            request.getRequestDispatcher("/views/admin/drivers.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/admin/drivers/drivers.jsp").forward(request, response);
         }
         catch (ServletException e){
             response.getWriter().print("There was an error handling your request, Please go back!\n" + e.getMessage());

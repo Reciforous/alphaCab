@@ -8,11 +8,11 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>RegisterDrivers</servlet-name>
-        <url-pattern>/drivers/register</url-pattern>
+        <url-pattern>/admin/drivers/register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewDrivers</servlet-name>
-        <url-pattern>/drivers</url-pattern>
+        <url-pattern>/admin/drivers</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login</welcome-file>

@@ -31,7 +31,10 @@
                 </td> 
                 <td style="border: 1px solid black;">                
                     <% out.print(driver.registration); %>
-                </td>        
+                </td>
+                <td style="border: 1px solid black;">
+                    <a href="/alphaCab/drivers">View Details</a>
+                </td>
             </tr>
         <%}%>
     </table>
