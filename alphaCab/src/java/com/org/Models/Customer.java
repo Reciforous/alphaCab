@@ -2,18 +2,33 @@ package com.org.Models;
 
 import com.org.Helpers.Message;
 import com.org.Helpers.Functions;
-import com.org.Models.Db;
+import com.org.Models.Db; 
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.function.Function;
 
 public class Customer {
     public Integer id = null;
     public String name = null;
     public String address = null;
+
+    public Customer(){
+
+    }
+    public Customer(Integer id){
+        this.id = id;
+    }
+    public Customer(Integer id, String name, String address){
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+    public Customer(String name, String address){
+        this.name = name;
+        this.address = address;
+    }
 
     public static Message createTable(){
         Message message = new Message();
@@ -54,7 +69,7 @@ public class Customer {
         return message;
     }
 
-    public void get(Integer id){
+    public void get(){
         if(this.id == null){
             throw new IllegalArgumentException("Error: Missing required fields");
         }
@@ -82,7 +97,6 @@ public class Customer {
         finally {
             Functions.closeDbConnection(db.connection);
         }
-
     }
 
     public void getByName(){
