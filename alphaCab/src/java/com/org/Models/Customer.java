@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Customer {
     public Integer id = null;
@@ -97,6 +98,35 @@ public class Customer {
         finally {
             Functions.closeDbConnection(db.connection);
         }
+    }
+
+    public static ArrayList<Customer> getAll(){
+        ArrayList<Customer> customers = new ArrayList<>();
+        String sql = "Select id, Name, Address FROM Customer";
+
+        Db db = new Db();
+        db.getConnection();
+
+        try(Statement stmt = db.connection.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while(rs.next()){
+                Integer id = rs.getInt("id");
+                String name = rs.getString("Name");
+                String address = rs.getString("Address");
+
+                Customer customer = new Customer(id, name, address);
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally {
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return customers;
     }
 
     public void getByName(){
