@@ -26,16 +26,16 @@ public class Demand {
         this.name = null;
         this.address = null;
         this.destination = null;
+
     }
-    
-    public Demand(int id){
-        this.id = id;
-    }
-    
     public Demand(String name, String address, String destination){
         this.name = name;
         this.address = address;
         this.destination = destination;
+    }
+
+    public Demand(Integer id){
+        this.id = id;
     }
 
     public Demand(Integer id, String name, String address, String destination, Date date, String status){
@@ -226,6 +226,10 @@ public class Demand {
     }
 
     public Message add(){
+        if(this.name == null || this.address == null || this.destination == null){
+            throw new IllegalArgumentException("Error: Missing required fields");
+        }
+
         Message message = new Message();
         String sql = "INSERT INTO Demands(id, Name, Address, Destination, Date, Time, Status)" +
                 "VALUES ((SELECT MAX(id) FROM Demands AS x) + 1 ,?, ?, ?, ?, ?, ?)";
