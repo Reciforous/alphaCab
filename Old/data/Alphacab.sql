@@ -77,12 +77,11 @@ CREATE TABLE Users (
    id INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
    email varchar(300) NOT NULL UNIQUE,
    password varchar(300) NOT NULL,
-   type text NOT NULL,
+   type varchar(10) NOT NULL,
    cid int,
    did varchar(10),
    FOREIGN KEY (cid) REFERENCES Customer (id),
-   FOREIGN KEY (did) REFERENCES Drivers (Registration),
-   PRIMARY KEY (id)
+   FOREIGN KEY (did) REFERENCES Drivers (Registration)
 );
 
 INSERT INTO Users (email, password, type, cid, did) VALUES
@@ -100,15 +99,13 @@ INSERT INTO Users (email, password, type, cid, did) VALUES
 ('nasru@example.com', 'admin123', 'admin', NULL, NULL),
 ('shaaik@example.com', 'admin123', 'admin', NULL, NULL),
 ('shimaanath@example.com', 'admin123', 'admin', NULL, NULL),
-('imma@example.com', 'admin123', 'admin', NULL, NULL),
+('imma@example.com', 'admin123', 'admin', NULL, NULL);
 
 
 CREATE TABLE Transactions (
-   id int NOT NULL AUTO_INCREMENT,
+   id INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
    journey_id int NOT NULL,
    transaction_date TIMESTAMP NOT NULL,
    amount FLOAT NOT NULL,
-   FOREIGN KEY (journey_id) REFERENCES Journey (jid),
-   PRIMARY KEY (id)
+   FOREIGN KEY (journey_id) REFERENCES Journey (jid)
 );
-
