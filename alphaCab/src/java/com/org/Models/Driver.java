@@ -130,6 +130,8 @@ public class Driver {
         try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
             pstmt.setString(1, this.registration);
             pstmt.setString(2, this.name);
+            pstmt.executeUpdate();
+            
             message = new Message(
                     true,
                     "Driver added successfully",
