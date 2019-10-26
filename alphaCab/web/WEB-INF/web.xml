@@ -6,6 +6,10 @@
         <servlet-name>ViewDrivers</servlet-name>
         <servlet-class>com.org.Controllers.ViewDrivers</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewCustomers</servlet-name>
+        <servlet-class>com.org.Controllers.ViewCustomers</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterDrivers</servlet-name>
         <url-pattern>/admin/drivers/register</url-pattern>
@@ -13,6 +17,10 @@
     <servlet-mapping>
         <servlet-name>ViewDrivers</servlet-name>
         <url-pattern>/admin/drivers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewCustomers</servlet-name>
+        <url-pattern>/admin/customers</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login</welcome-file>

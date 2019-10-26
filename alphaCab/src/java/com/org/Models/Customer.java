@@ -100,7 +100,7 @@ public class Customer {
         }
     }
 
-    public static ArrayList<Customer> getAll(){
+    public static ArrayList<Customer> getAllCustomers(){
         ArrayList<Customer> customers = new ArrayList<>();
         String sql = "Select id, Name, Address FROM Customer";
 
