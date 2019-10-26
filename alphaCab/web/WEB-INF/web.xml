@@ -30,6 +30,14 @@
         <servlet-name>ViewTransactions</servlet-name>
         <url-pattern>/admin/transactions</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewDemand</servlet-name>
+        <servlet-class>com.org.Controllers.ViewDemand</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateJourney</servlet-name>
+        <servlet-class>com.org.Controllers.CreateJourney</servlet-class>
+    </servlet>
     <welcome-file-list>
         <welcome-file>login</welcome-file>
     </welcome-file-list>
