@@ -74,7 +74,7 @@ INSERT INTO Journey (jid, Destination, Distance, id, Registration, Date, Time) V
 ------------------------- Custom Tables -------------------------
 -- if auto increment doesnt work please test this stackoverflow code - https://stackoverflow.com/questions/3308329/create-autoincrement-key-in-java-db-using-netbeans-ide
 CREATE TABLE Users (
-   id int NOT NULL AUTO_INCREMENT,
+   id INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
    email varchar(300) NOT NULL UNIQUE,
    password varchar(300) NOT NULL,
    type text NOT NULL,
