@@ -94,7 +94,7 @@ INSERT INTO Users (email, password, type, cid, did) VALUES
 ('gulhikmet@example.com', 'test123', 'customer', 7, NULL),
 ('johnsmith@example.com', 'driver123', 'driver', NULL, 'AK52VZV'),
 ('mehmetaydin@example.com', 'driver123', 'driver', NULL, 'BN60WKA'),
-('markjohnson@example.com', 'driver123', 'driver', Null, 'R34AKP')
+('markjohnson@example.com', 'driver123', 'driver', Null, 'R34AKP'),
 ('zain@example.com', 'admin123', 'admin', NULL, NULL),
 ('nasru@example.com', 'admin123', 'admin', NULL, NULL),
 ('shaaik@example.com', 'admin123', 'admin', NULL, NULL),

@@ -26,8 +26,12 @@ public class Demand {
         this.name = null;
         this.address = null;
         this.destination = null;
-
     }
+    
+    public Demand(int id){
+        this.id = id;
+    }
+    
     public Demand(String name, String address, String destination){
         this.name = name;
         this.address = address;

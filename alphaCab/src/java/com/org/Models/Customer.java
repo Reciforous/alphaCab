@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Customer {
+    
     public Integer id = null;
     public String name = null;
     public String address = null;
