@@ -281,8 +281,11 @@ public class User {
         return message;
     }
 
-    public Cookie login(){
-        Cookie cookie = null;
+    public Cookie[] login(){
+        Cookie[] cookies = new Cookie[3];
+        Cookie auth_cookie = null;
+        Cookie user_type_cookie = null;
+        Cookie id_cookie = null;
 
         User check_user = new User(this.email);
         check_user.getByEmail();
@@ -291,17 +294,27 @@ public class User {
             check_user = null;
         }
         if(check_user == null){
-            return cookie;
+            return cookies;
         }
 
         Boolean authenticated = check_user.authenticated(this.password);
 
         if(authenticated){
-            cookie = new Cookie("Authentication", this.email);
+            auth_cookie = new Cookie("authentication", this.email);
             this.type = check_user.type;
+            user_type_cookie = new Cookie("Type", this.type);
+            if(this.type.equals("customer")){
+                id_cookie = new Cookie("id", this.customer_id.toString());
+            }
+            else if(this.type.equals("driver")){
+                id_cookie = new Cookie("id", this.driver_id);
+            }
         }
 
-        return cookie;
+        cookies[0] = auth_cookie;
+        cookies[1] = user_type_cookie;
+        cookies[2] = id_cookie;
+        return cookies;
     }
 
     public Cookie logout(){
