@@ -168,8 +168,8 @@ public class Customer {
         db.getConnection();
 
         try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
-            pstmt.setString(2, this.name);
-            pstmt.setString(3, this.address);
+            pstmt.setString(1, this.name);
+            pstmt.setString(2, this.address);
             pstmt.executeUpdate();
 
             message = new Message(

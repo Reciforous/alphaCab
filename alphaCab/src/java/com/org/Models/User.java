@@ -16,7 +16,7 @@ public class User {
     public String type = null;
     public Integer customer_id = null;
     public String driver_id = null;
-
+//
     public User(){
         this.id = null;
         this.email = null;
