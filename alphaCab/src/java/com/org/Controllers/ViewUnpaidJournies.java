@@ -34,7 +34,7 @@ public class ViewUnpaidJournies extends HttpServlet {
         }
 
         try{
-            request.getRequestDispatcher("/alphaCab/views/customer/view-journies.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/customer/view-journies.jsp").forward(request, response);
         }
         catch (ServletException e){
             response.getWriter().print("There was an error handling your request, please go back!\n" + e.getMessage());

@@ -28,14 +28,14 @@ public class Demand {
         this.destination = null;
 
     }
+    public Demand(Integer id){
+        this.id = id;
+    }
+
     public Demand(String name, String address, String destination){
         this.name = name;
         this.address = address;
         this.destination = destination;
-    }
-
-    public Demand(Integer id){
-        this.id = id;
     }
 
     public Demand(Integer id, String name, String address, String destination, Date date, String status){

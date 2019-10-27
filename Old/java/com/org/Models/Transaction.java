@@ -20,6 +20,10 @@ public class Transaction {
         this.amount = amount;
     }
 
+    public Transaction(Integer id){
+        this.id = id;
+    }
+
     public Transaction(Integer journey_id, Float amount){
         this.journey_id = journey_id;
         this.transaction_date = new Date();

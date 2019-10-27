@@ -10,7 +10,8 @@ import java.io.IOException;
 
 public class ViewJourney extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer id = Integer.parseInt(request.getParameter("journeyId"));
+        // Get object id from url
+        Integer id = Integer.parseInt(request.getPathInfo().substring(1));
 
         Journey journey = new Journey(id);
         journey.get();
@@ -18,7 +19,7 @@ public class ViewJourney extends HttpServlet {
         request.setAttribute("journey", journey);
 
         try{
-            request.getRequestDispatcher("/alphacab/views/customer/view-journey.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/customer/view-journey.jsp").forward(request, response);
         }
         catch (ServletException e){
             response.getWriter().print("There was an error handling your request, please go back!\n" + e.getMessage());
