@@ -20,7 +20,7 @@
 				<li>Destination: <% out.print(journey.destination); %></li>
 				<%-- <li>Distance travelled: <% out.print(journey.distance); %></li> --%>
 				<li>Date: <% out.print(sdf.format(journey.date)); %> </li>
-				<a href="#">View Details</a>
+				<a href=<% out.print("/journey/view/" + journey.id); %>>View Details</a>
 			</ul>
 		<% } %>
 	<% } else{ %>
