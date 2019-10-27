@@ -9,6 +9,7 @@ import com.org.Models.Customer;
 import com.org.Models.Driver;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,10 +24,18 @@ public class ViewCustomers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
-            ArrayList<Customer> customers = Customer.getAllCustomers();
-            request.setAttribute("customers", customers);
+            if (request.getParameterMap().containsKey("customer")) {
+                String customerID = request.getParameter("customer");
+                Customer customer = new Customer(parseInt(customerID));
+                customer.get();
+                request.setAttribute("customer", customer);
+                request.getRequestDispatcher("/views/admin/customers/customer.jsp").forward(request, response);
 
-            request.getRequestDispatcher("/views/admin/customers/customers.jsp").forward(request, response);
+            } else {
+                ArrayList<Customer> customers = Customer.getAllCustomers();
+                request.setAttribute("customers", customers);
+                request.getRequestDispatcher("/views/admin/customers/customers.jsp").forward(request, response);
+            }
         }
         catch (ServletException e){
             response.getWriter().print("There was an error handling your request, Please go back!\n" + e.getMessage());

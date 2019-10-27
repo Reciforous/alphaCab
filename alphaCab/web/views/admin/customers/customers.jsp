@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="com.org.Models.Customer"%>
-<%@page import="com.org.Models.Driver"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -18,7 +17,6 @@
     <body>
         <h1>Customers!</h1>
         <% ArrayList<Customer> customers = (ArrayList<Customer>) request.getAttribute("customers"); %>
-        
     <table style="border: 1px solid black;">
         <tr>
             <th style="border: 1px solid black;">Name</th>
@@ -33,7 +31,7 @@
                     <% out.print(customer.name); %>
                 </td>                 
                 <td style="border: 1px solid black;">
-                    <a href="/alphaCab/admin/customers">View Details</a>
+                    <a href="/alphaCab/admin/customers?customer=<% out.print(customer.id); %>">View Details</a>
                 </td>
             </tr>
         <%}%>
