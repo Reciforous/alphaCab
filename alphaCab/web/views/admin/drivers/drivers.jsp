@@ -32,7 +32,7 @@
                     <% out.print(driver.registration); %>
                 </td>
                 <td style="border: 1px solid black;">
-                    <a href="/alphaCab/drivers">View Details</a>
+                    <a href="/alphaCab/admin/drivers?driver=<% out.print(driver.registration); %>">View Details</a>
                 </td>
             </tr>
         <%}%>
