@@ -100,27 +100,66 @@
         <url-pattern>/driver/home</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>DemandsView</servlet-name>
-        <servlet-class>com.org.Controllers.ViewDemands</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DemandsView</servlet-name>
-        <url-pattern>/demands/view</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AddDemand</servlet-name>
-        <servlet-class>com.org.Controllers.AddDemand</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AddDemand</servlet-name>
-        <url-pattern>/demands/add</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AddUser</servlet-name>
-        <servlet-class>com.org.Controllers.AddUser</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AddUser</servlet-name>
-        <url-pattern>/users/add</url-pattern>
-    </servlet-mapping>
+    <servlet-name>DemandsView</servlet-name>
+    <servlet-class>com.org.Controllers.ViewDemands</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DemandsView</servlet-name>
+    <url-pattern>/demands/view</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AddDemand</servlet-name>
+    <servlet-class>com.org.Controllers.AddDemand</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddDemand</servlet-name>
+    <url-pattern>/demands/add</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AddUser</servlet-name>
+    <servlet-class>com.org.Controllers.AddUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddUser</servlet-name>
+    <url-pattern>/users/add</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MakeDemand</servlet-name>
+    <servlet-class>com.org.Controllers.MakeDemand</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MakeDemand</servlet-name>
+    <url-pattern>/order</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ViewUnpaidJournies</servlet-name>
+    <servlet-class>com.org.Controllers.ViewUnpaidJournies</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewUnpaidJournies</servlet-name>
+    <url-pattern>/journies</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ViewJourney</servlet-name>
+    <servlet-class>com.org.Controllers.ViewJourney</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewJourney</servlet-name>
+    <url-pattern>/journey/view/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MakeTransaction</servlet-name>
+    <servlet-class>com.org.Controllers.MakeTransaction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MakeTransaction</servlet-name>
+    <url-pattern>/pay/*</url-pattern>
+  </servlet-mapping>
+    
 </web-app>

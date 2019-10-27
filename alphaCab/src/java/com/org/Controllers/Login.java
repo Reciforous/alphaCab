@@ -31,19 +31,20 @@ public class Login extends HttpServlet {
 
         User user = new User(email, password);
         Cookie[] cookies = user.login();
-
+        
         if(cookies != null){
             for(Cookie cookie : cookies){
                 response.addCookie(cookie);
+                System.out.println("test");
             }
             if(user.type.equals("customer")) {
-                response.sendRedirect("/home");
+                response.sendRedirect("/alphaCab/home");
             }
             else if(user.type.equals("admin")) {
-                response.sendRedirect("/admin/home");
+                response.sendRedirect("/alphaCab/admin/home");
             }
             else{
-                response.sendRedirect("/driver/home");
+                response.sendRedirect("/alphaCab/driver/home");
             }
 
         }
