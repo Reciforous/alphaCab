@@ -88,4 +88,40 @@
     <servlet-name>AddUser</servlet-name>
     <url-pattern>/users/add</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MakeDemand</servlet-name>
+    <servlet-class>com.org.Controllers.MakeDemand</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MakeDemand</servlet-name>
+    <url-pattern>/order</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ViewUnpaidJournies</servlet-name>
+    <servlet-class>com.org.Controllers.ViewUnpaidJournies</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewUnpaidJournies</servlet-name>
+    <url-pattern>/journies</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ViewJourney</servlet-name>
+    <servlet-class>com.org.Controllers.ViewJourney</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewJourney</servlet-name>
+    <url-pattern>/journey/view/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MakeTransaction</servlet-name>
+    <servlet-class>com.org.Controllers.MakeTransaction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MakeTransaction</servlet-name>
+    <url-pattern>/pay/*</url-pattern>
+  </servlet-mapping>
 </web-app>
