@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Register Driver</h1>
-        <form action="/alphaCab/drivers/register" method="POST">
+        <form action="/alphaCab/admin/drivers/register" method="POST">
             <div>
                <div>
                    <label>Name</label>
@@ -23,6 +23,14 @@
                 <div>
                     <label>Registration</label>
                     <input type="text" name="registration" required>
+                </div>
+                <div>
+                    <label>Email</label>
+                    <input type="text" name="email" required>
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="text" name="password" required>
                 </div>
             </div>
             <div>

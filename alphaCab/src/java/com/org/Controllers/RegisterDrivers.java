@@ -8,6 +8,7 @@ package com.org.Controllers;
 import com.org.Helpers.Message;
 import com.org.Models.Demand;
 import com.org.Models.Driver;
+import com.org.Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -34,13 +35,14 @@ public class RegisterDrivers extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         String name = request.getParameter("name");
         String registration = request.getParameter("registration");
-        
-        System.out.println(name);
-        System.out.println(registration);
-        
-        Driver driver = new Driver(name, registration);           
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String type = "driver";
+
+        Driver driver = new Driver(name, registration);
         Message message = driver.add();
-        System.out.println(message.content);
+        User user = new User(email, password, type, registration);
+        message = user.add();
         response.sendRedirect("/alphaCab/admin/drivers");
  
     }
