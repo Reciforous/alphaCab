@@ -3,6 +3,7 @@ package com.org.Models;
 import com.org.Helpers.Functions;
 import com.org.Helpers.Message;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,12 +14,12 @@ import java.util.Date;
 import java.util.function.Function;
 
 public class Journey {
-    Integer id = null;
-    Integer customer_id = null;
-    String destination = null;
-    Integer distance = null;
-    String registration = null;
-    Date date = null;
+    public Integer id = null;
+    public Integer customer_id = null;
+    public String destination = null;
+    public Integer distance = null;
+    public String registration = null;
+    public Date date = null;
 
     public Journey(){
 
@@ -39,6 +40,64 @@ public class Journey {
         this.distance = distance;
         this.registration = registration;
         this.date = new Date();
+    }
+
+    public Journey(Integer id){
+        this.id = id;
+    }
+
+    public static ArrayList<Journey> getUnpaidJournies(Customer customer){
+        if(customer.id == null){
+            throw new IllegalArgumentException("Error: Missing required fields");
+        }
+
+        ArrayList<Journey> journies = new ArrayList<>();
+        // Amazing SQL queries we have to do because whoever designed the database is retarded
+        String sql = "SELECT Journey.jid," +
+                " Journey.Destination," +
+                " Journey.Distance," +
+                " Journey.Registration," +
+                " Journey.Date," +
+                " Journey.Time FROM " +
+                "Journey LEFT OUTER JOIN Transactions on Journey.jid = Transactions.journey_id" +
+                " WHERE Transactions.journey_id is NULL and Journey.id = ?";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setInt(1, customer.id);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()){
+                Integer id = rs.getInt("jid");
+                String destination = rs.getString("Destination");
+                Integer distance = rs.getInt("Distance");
+                String registration = rs.getString("Registration");
+
+                // MESSY AND BAD IMPLEMENTATION
+                java.sql.Date dbdate = rs.getDate("Date");
+                java.sql.Time dbtime = rs.getTime("Time");
+                Date date = null;
+                try{
+                    date = sdf.parse(dbdate.toString() + " " + dbtime.toString());
+                }
+                catch (ParseException e){
+                    System.out.println("Error: Could not parse date");
+                }
+
+                Journey journey = new Journey(id, customer.id, destination, distance, registration, date);
+                journies.add(journey);
+            }
+        }
+        catch (SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally {
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return journies;
     }
 
     public static ArrayList<Journey> getByRegistration(Driver driver){
@@ -133,6 +192,47 @@ public class Journey {
         }
 
         return journies;
+    }
+
+    public void get(){
+        if(this.id == null){
+            throw new IllegalArgumentException("Error: Missing required fields");
+        }
+
+        String sql = "SELECT id, Destination, Distance, Registration, Date, Time FROM Journey WHERE jid = ?";
+
+        Db db = new Db();
+        db.getConnection();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setInt(1, this.id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                this.customer_id = rs.getInt("id");
+                this.destination = rs.getString("Destination");
+                this.distance = rs.getInt("Distance");
+                java.sql.Date dbdate = rs.getDate("Date");
+                java.sql.Time dbtime = rs.getTime("Time");
+
+                try{
+                    this.date = sdf.parse(dbdate.toString() + " " + dbtime.toString());
+                }
+                catch (ParseException e){
+                    System.out.println("Error: Could not parse date");
+                }
+            }
+            else{
+                System.out.println("No result");
+            }
+        }
+        catch (SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally {
+            Functions.closeDbConnection(db.connection);
+        }
     }
 
     public Message add(){
