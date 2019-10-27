@@ -25,13 +25,13 @@ public class Transaction {
         this.transaction_date = new Date();
         this.amount = amount;
     }
-    
-    public Transaction(Integer id){
-        this.id = id;
-    }
 
     public Transaction(){
 
+    }
+
+    public Transaction(Integer id){
+        this.id = id;
     }
 
     public static Message createTable(){
