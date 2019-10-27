@@ -16,7 +16,7 @@ public class User {
     public String type = null;
     public Integer customer_id = null;
     public String driver_id = null;
-//
+
     public User(){
         this.id = null;
         this.email = null;
@@ -302,6 +302,9 @@ public class User {
         if(authenticated){
             auth_cookie = new Cookie("authentication", this.email);
             this.type = check_user.type;
+            this.customer_id = check_user.customer_id;
+            this.driver_id = check_user.driver_id;
+
             user_type_cookie = new Cookie("Type", this.type);
             if(this.type.equals("customer")){
                 id_cookie = new Cookie("id", this.customer_id.toString());
