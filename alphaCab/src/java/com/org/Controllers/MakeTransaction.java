@@ -18,8 +18,8 @@ public class MakeTransaction extends HttpServlet {
             Journey journey = new Journey(journey_id);
             journey.get();
 
-            Customer customer = new Customer();
-            customer.get(journey.customer_id);
+            Customer customer = new Customer(journey.customer_id);
+            customer.get();
 
             if(journey.date == null){
                 Message message = new Message(
