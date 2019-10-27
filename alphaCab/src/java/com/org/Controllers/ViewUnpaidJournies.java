@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class ViewUnpaidJournies extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Use cookie to get customer ID
         Cookie[] cookies = request.getCookies();
         Cookie id_cookie = null;
         for(Cookie cookie : cookies){
