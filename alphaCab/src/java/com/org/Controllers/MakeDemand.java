@@ -15,7 +15,7 @@ public class MakeDemand extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try{
             request.setAttribute("message", null);
-            request.getRequestDispatcher("/alphacab/views/customer/make-demand.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/customer/make-demand.jsp").forward(request, response);
         }
         catch (ServletException e){
             response.getWriter().print("There was an error handling your request please go back!\n" + e.getMessage());
