@@ -2,7 +2,7 @@
 CREATE TABLE Customer (
   Name varchar(20),
   Address varchar(60),
-  id int not null,
+  id int not null GENERATED ALWAYS AS IDENTITY(START WITH 1, INCREMENT BY 1),
   PRIMARY KEY (id)
 );
 
@@ -19,7 +19,7 @@ INSERT INTO Customer (Name, Address, id) VALUES
 -- --------------------------------------------------------
 --DROP Table Demands;
 CREATE TABLE Demands (
-  id int NOT NULL,
+  id int NOT NULL GENERATED ALWAYS AS IDENTITY(START WITH 1, INCREMENT BY 1),
   Name varchar(20),
   Address varchar(60),
   Destination varchar(60),
@@ -51,7 +51,7 @@ INSERT INTO Drivers (Registration, Name) VALUES
 
 --DROP Table Journey;
 CREATE TABLE Journey (
-  jid int NOT NULL,
+  jid int NOT NULL GENERATED ALWAYS AS IDENTITY(START WITH 1, INCREMENT BY 1),
   id int NOT NULL,
   Destination varchar(60),
   Distance integer NOT NULL DEFAULT 1,
