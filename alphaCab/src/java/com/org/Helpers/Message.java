@@ -1,5 +1,8 @@
 package com.org.Helpers;
 
+/**
+ * Used to pass status of functions along with a custom message
+ */
 public class Message {
     public Boolean status;
     public String content;
