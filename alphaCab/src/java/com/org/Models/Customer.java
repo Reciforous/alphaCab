@@ -10,8 +10,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+
+/*
+    TODO: Move this to git
+
+    WHATS NEW:
+        .add() now updates object to return the generated ID
+ */
+
 public class Customer {
-    
     public Integer id = null;
     public String name = null;
     public String address = null;
@@ -162,15 +169,23 @@ public class Customer {
 
     public Message add(){
         Message message = new Message();
-        String sql = "insert into Customer (id, Name, Address) values ((SELECT MAX(id) FROM Customer as x) + 1 ,?, ?)";
+        String sql = "insert into Customer (Name, Address) values (?, ?)";
 
         Db db = new Db();
         db.getConnection();
 
-        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(1, this.name);
             pstmt.setString(2, this.address);
-            pstmt.executeUpdate();
+            int result =  pstmt.executeUpdate();
+
+            if(result == 1){
+                ResultSet rs = pstmt.getGeneratedKeys();
+
+                if(rs.next()){
+                    this.id = rs.getInt(1);
+                }
+            }
 
             message = new Message(
                     true,

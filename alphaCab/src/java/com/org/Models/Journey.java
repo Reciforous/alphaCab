@@ -3,28 +3,66 @@ package com.org.Models;
 import com.org.Helpers.Functions;
 import com.org.Helpers.Message;
 
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.function.Function;
+
+/*
+    TODO: Move this to git
+
+    WHATS NEW:
+        - .add() now updates object.id with db id
+        - Fixed .add() table name JOURNEY instead of Journey
+ */
+
+/**
+ * @author  Zain Riyaz <mohamedzainriyaz@gmail.com
+ * @version 1.0
+ * Journey model uses an ORM <b>Like</b> approach to do CRUD operations on the database
+ */
 
 public class Journey {
+    /***
+     * Object id assigned from database Type: public
+     */
     public Integer id = null;
+
+    /**
+     * Customer id used to get Customer obj
+     */
     public Integer customer_id = null;
+
+    /**
+     * Journey destination
+     */
     public String destination = null;
+
+    /**
+     * Distance traveled on journey
+     */
     public Integer distance = null;
+
+    /**
+     * Registration number of driver used to get Driver obj
+     */
     public String registration = null;
+
+    /**
+     * Date journey was requested
+     */
     public Date date = null;
 
+    // Empty constructor
     public Journey(){
 
     }
 
+    // Constructor for getAll and update
     public Journey(Integer id, Integer customer_id, String destination, Integer distance, String registration, Date date){
         this.id = id;
         this.customer_id = customer_id;
@@ -34,6 +72,7 @@ public class Journey {
         this.date = date;
     }
 
+    // Constructor for insert
     public Journey(Integer customer_id, String destination, Integer distance, String registration){
         this.customer_id = customer_id;
         this.destination = destination;
@@ -42,10 +81,17 @@ public class Journey {
         this.date = new Date();
     }
 
+    // Constructor for getting single record
     public Journey(Integer id){
         this.id = id;
     }
 
+    /**
+     * Gets all journies NOT IN Transaction table ie. Unpaid for
+     * @param   customer    Type: Customer
+     * @return  ArrayList   Type: Customer
+     * @throws  IllegalArgumentException    Thrown when customer.id is null
+     */
     public static ArrayList<Journey> getUnpaidJournies(Customer customer){
         if(customer.id == null){
             throw new IllegalArgumentException("Error: Missing required fields");
@@ -100,6 +146,20 @@ public class Journey {
         return journies;
     }
 
+    /**
+     * Gets journeys made by a driver
+     * Usage eg:
+     * {@code
+     * Driver driver = new Driver('AXK298');
+     * driver.get();
+     *
+     * // Populate ArrayList with Journey obj's filtered by driver registation
+     * ArrayList<Journey> journies = Journey.getByRegistration(driver);
+     * }
+     * @param   driver    Type: com.org.Models.Driver
+     * @return  ArrayList   Type: Journey
+     * @throws  IllegalArgumentException    thrown when driver.registration is null
+     */
     public static ArrayList<Journey> getByRegistration(Driver driver){
         if(driver.registration == null){
             throw new IllegalArgumentException("Error: Missing required fields");
@@ -147,6 +207,20 @@ public class Journey {
         return journies;
     }
 
+    /**
+     * Get journies related to a customer using customer id
+     * Usage eg:
+     * {@code
+     * Customer customer = new Customer(1);
+     * customer.get();
+     *
+     * // Populate ArrayList with Journey obj's filtered by customer id
+     * ArrayList<Journey> journies = Journey.getByCustomerId(customer);
+     * }
+     * @param   customer    Type: com.org.Models.Customer
+     * @return  ArrayList   Type: Journey
+     * @throws  IllegalArgumentException    Thrown when customer id is null
+     */
     public static ArrayList<Journey> getByCustomerId(Customer customer){
         if(customer.id == null){
             throw new IllegalArgumentException("Error: Missing required fields");
@@ -194,6 +268,16 @@ public class Journey {
         return journies;
     }
 
+    /***
+     * Get single journey record using journey id
+     * Usage eg:
+     * {@code
+     * Journey journey = new Journey(1);
+     *
+     * // gets record from journey table filtered by id
+     * journey.get();
+     * }
+     */
     public void get(){
         if(this.id == null){
             throw new IllegalArgumentException("Error: Missing required fields");
@@ -235,20 +319,37 @@ public class Journey {
         }
     }
 
+    /**
+     * Inserts new record to database
+     * Usage eg:
+     * {@code
+     * Integer customerId = 1
+     * String driverRegistration = "AK929"
+     * String destination = "";
+     * Integer distance = 23;
+     *
+     * Journey journey = new Journey(customerId, destination, distance, driverRegistration);
+     * Message message = journey.add();
+     * }
+     * @return  Message Type: com.org.Helpers.Message
+     */
     public Message add(){
         if(this.customer_id == null || this.destination == null || this.registration == null){
+            System.out.println(this.customer_id);
+            System.out.println(this.destination);
+            System.out.println(this.registration);
             throw new IllegalArgumentException("Error: Missing required fields");
         }
 
         // Also why do you guys hate auto incrementing DB's? Even derby has autoincrementation...
         Message message = new Message();
-        String sql = "INSERT INTO JOURNEY(jid, id, Destination, Distance, Registration, Date, Time) VALUES(" +
-                "(SELECT MAX(jid) FROM Journey as x) + 1, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Journey(id, Destination, Distance, Registration, Date, Time) VALUES(" +
+                "?, ?, ?, ?, ?, ?)";
 
         Db db = new Db();
         db.getConnection();
 
-        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setInt(1, this.customer_id);
             pstmt.setString(2, this.destination);
             pstmt.setInt(3, this.distance);
@@ -261,7 +362,15 @@ public class Journey {
             pstmt.setDate(5, dbdate);
             pstmt.setTime(6, dbtime);
 
-            pstmt.executeUpdate();
+            int result = pstmt.executeUpdate();
+
+            if(result == 1){
+                ResultSet rs = pstmt.getGeneratedKeys();
+
+                if(rs.next()){
+                    this.id = rs.getInt(1);
+                }
+            }
 
             message = new Message(
                     true,

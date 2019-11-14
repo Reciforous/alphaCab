@@ -7,6 +7,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+    TODO: Move this to git
+
+    WHATS NEW:
+        - .add() now updates object.id with db id
+ */
 public class Transaction {
     public Integer id = null;
     public Integer journey_id = null;
@@ -142,13 +148,20 @@ public class Transaction {
         Db db = new Db();
         db.getConnection();
 
-        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setInt(1, this.journey_id);
             pstmt.setFloat(2, this.amount);
 
             java.sql.Timestamp ts = new java.sql.Timestamp(this.transaction_date.getTime());
             pstmt.setTimestamp(3, ts);
-            pstmt.executeUpdate();
+            int result = pstmt.executeUpdate();
+
+            if(result == 1){
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    this.id = rs.getInt(1);
+                }
+            }
             message = new Message(
                     true,
                     "Transaction successfully added",

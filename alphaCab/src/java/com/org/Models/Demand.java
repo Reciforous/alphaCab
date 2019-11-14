@@ -13,6 +13,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.function.Function;
 
+/*
+    TODO: Move this to git
+
+    WHATS NEW:
+        getByStatus(String status), type - ArrayList<Demand>
+        getDemandsByCustomer() --> getByCustomer()
+        getLastAccepted(), type - void
+ */
+
 public class Demand {
     public Integer id = null;
     public String name = null;
@@ -44,6 +53,11 @@ public class Demand {
         this.address = address;
         this.destination = destination;
         this.date = date;
+        this.status = status;
+    }
+
+    public Demand(String name){
+        this.name = name;
         this.status = status;
     }
 
@@ -132,7 +146,7 @@ public class Demand {
         return demands;
     }
 
-    public static ArrayList<Demand> getDemandsByCustomer (Customer customer){
+    public static ArrayList<Demand> getByCustomer(Customer customer){
         if(customer.name == null){
             throw new IllegalArgumentException("Error: Missing required fields");
         }
@@ -176,6 +190,139 @@ public class Demand {
             Functions.printSQLError(e);
         }
         finally {
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return demands;
+    }
+
+    public static Demand getAccepted(Customer customer){
+        if(customer.id == null){
+            throw new IllegalArgumentException("Error: Missing required fields");
+        }
+
+        Demand demand = null;
+        String sql = "SELECT demand_id FROM DemandQueue WHERE customer_id = ?";
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setInt(1, customer.id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                Integer id = rs.getInt("demand_id");
+                demand = new Demand(id);
+                demand.getById();
+            }
+        }
+        catch(SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally{
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return demand;
+    }
+
+    public static Demand getPending(Driver driver){
+        if(driver.registration == null){
+            throw new IllegalArgumentException("Error: Missing required fields");
+        }
+
+        Demand demand = null;
+        String sql = "SELECT demand_id FROM DemandQueue WHERE driver_id = ?";
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setString(1, driver.registration);
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                Integer id = rs.getInt("demand_id");
+                demand = new Demand(id);
+                demand.getById();
+            }
+        }
+        catch(SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally{
+            Functions.closeDbConnection(db.connection);
+        }
+        return demand;
+    }
+
+    public static Boolean checkIfOrdered(Customer customer){
+        if(customer.id == null){
+            throw new IllegalArgumentException("Error: Missing required fields");
+        }
+
+        Boolean ordered = true;
+
+        String sql = "SELECT id FROM DemandQueue WHERE customer_id = ?";
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setInt(1, customer.id);
+            ResultSet rs = pstmt.executeQuery();
+            if(!rs.next()){
+                ordered = false;
+            }
+        }
+        catch(SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally{
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return ordered;
+    }
+
+    public static ArrayList<Demand> getByStatus(String status){
+        ArrayList<Demand> demands = new ArrayList<>();
+        String sql = "SELECT id, Name, Address, Destination, Date, Time, Status FROM Demands WHERE status=?";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setString(1, status);
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                Date date = null;
+                java.sql.Date db_date = rs.getDate("Date");
+                java.sql.Time db_time = rs.getTime("Time");
+                String date_string = db_date.toString() + " " + db_time.toString();
+                try{
+                    date = sdf.parse(date_string);
+                }
+                catch(ParseException e){
+                    System.out.println("Error: Could not parse date!");
+                }
+
+                Demand demand = new Demand(
+                        rs.getInt("id"),
+                        rs.getString("Name"),
+                        rs.getString("Address"),
+                        rs.getString("Destination"),
+                        date,
+                        rs.getString("status")
+                );
+
+                demands.add(demand);
+            }
+        }
+        catch(SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally{
             Functions.closeDbConnection(db.connection);
         }
 
@@ -231,8 +378,8 @@ public class Demand {
         }
 
         Message message = new Message();
-        String sql = "INSERT INTO Demands(id, Name, Address, Destination, Date, Time, Status)" +
-                "VALUES ((SELECT MAX(id) FROM Demands AS x) + 1 ,?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Demands(Name, Address, Destination, Date, Time, Status)" +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         Db db = new Db();
         db.getConnection();
@@ -245,14 +392,22 @@ public class Demand {
         java.sql.Date dbdate = new java.sql.Date(this.date.getYear(), this.date.getMonth(), this.date.getDate());
         java.sql.Time dbtime = new java.sql.Time(this.date.getTime());
 
-        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(1, this.name);
             pstmt.setString(2, this.address);
             pstmt.setString(3, this.destination);
             pstmt.setDate(4, dbdate);
             pstmt.setTime(5, dbtime);
             pstmt.setString(6, this.status);
-            pstmt.executeUpdate();
+            int result = pstmt.executeUpdate();
+
+            // This bit updates the object creating a more ORM like approach so now we have ID whenever we add
+            if(result == 1){
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    this.id = rs.getInt(1);
+                }
+            }
 
             message = new Message(
                     true,
@@ -269,6 +424,45 @@ public class Demand {
             Functions.printSQLError(e);
         }
         finally {
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return message;
+    }
+
+    public static Message addToDemandQueue(Demand demand, Customer customer){
+        if(demand.id == null || customer.id == null){
+            return new Message(
+                    false,
+                    "Error: Missing required fields",
+                    "error"
+            );
+        }
+
+        String sql = "INSERT INTO DemandQueue (demand_id, customer_id) VALUES (?, ?)";
+        Db db = new Db();
+        db.getConnection();
+        Message message;
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setInt(1, demand.id);
+            pstmt.setInt(2, customer.id);
+            pstmt.executeUpdate();
+            message = new Message(
+                    true,
+                    "Demand added to queue",
+                    "success"
+            );
+        }
+        catch(SQLException e){
+            Functions.printSQLError(e);
+            message = new Message(
+                    false,
+                    "Error: " + e.getMessage(),
+                    "error"
+            );
+        }
+        finally{
             Functions.closeDbConnection(db.connection);
         }
 
@@ -317,16 +511,132 @@ public class Demand {
 
     public Message cancel(){
         this.status = "Canceled";
-        return this.update();
+        String sql = "DELETE FROM DemandQueue WHERE demand_id = ?";
+        Message message;
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setInt(1, this.id );
+            pstmt.executeUpdate();
+            message = this.update();
+        }
+        catch(SQLException e){
+            Functions.printSQLError(e);
+            message = new Message(
+                    false,
+                    "Error: " + e.getMessage(),
+                    "error"
+            );
+        }
+        finally{
+            Functions.closeDbConnection(db.connection);
+        }
+        return message;
     }
 
-    public Message accept(){
+    public Message accept(Driver driver){
         this.status = "Accepted";
-        return this.update();
+        String sql = "UPDATE DemandQueue SET driver_id=? WHERE demand_id=?";
+        Message message;
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setString(1, driver.registration);
+            pstmt.setInt(2, this.id);
+            pstmt.executeUpdate();
+            message = this.update();
+        }
+        catch(SQLException e){
+            Functions.printSQLError(e);
+            if(e.getErrorCode() == 1062){
+                message = new Message(
+                        false,
+                        "You have a pending demand in queue! Cannot accept more than 1",
+                        "error"
+                );
+            }
+            else{
+                message = new Message(
+                        false,
+                        "Error: failed to update demand queue",
+                        "error"
+                );
+            }
+        }
+        finally{
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return message;
     }
 
-    public Message completed() {
+    // Pass an empty journey object here to for so that journey is generated and returned to journey instance
+    public Message completed(Integer distance, Journey journey) {
         this.status = "Completed";
-        return this.update();
+        Message message;
+
+        String sql = "SELECT customer_id, driver_id FROM DemandQueue WHERE demand_id = ?";
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setInt(1, this.id);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()){
+                Integer customer_id = rs.getInt("customer_id");
+                String driver_id = rs.getString("driver_id");
+
+
+                // Remove from demand queue so that user is free to create a request and driver is free to accept another demand
+                sql = "DELETE FROM DemandQueue WHERE demand_id = ?";
+                PreparedStatement pstmt2 = db.connection.prepareStatement(sql);
+                pstmt2.setInt(1, this.id);
+                pstmt2.executeUpdate();
+
+                message = this.update();
+
+                if(message.status){
+                    System.out.println("Generating journey");
+                    journey = new Journey(customer_id, this.destination, distance, driver_id);
+                    message = journey.add();
+
+                    if(message. status){
+                        message = new Message(
+                                true,
+                                "Journey generated successfully",
+                                "success"
+                        );
+                    }else{
+                        message = new Message(
+                                false,
+                                message.content,
+                                "error"
+                        );
+                    }
+                }
+            }
+            else{
+                message = new Message(
+                        false,
+                        "Error: Could not find demand or missing journey details",
+                        "error"
+                );
+            }
+        }
+        catch(SQLException e){
+            Functions.printSQLError(e);
+            message = new Message(
+                    false,
+                    "Error: " + e.getMessage(),
+                    "error"
+            );
+        }
+        finally{
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return message;
     }
 }

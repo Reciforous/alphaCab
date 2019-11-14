@@ -4,11 +4,22 @@ import com.org.Helpers.Functions;
 import com.org.Helpers.Message;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+/*
+    TODO: Move to git
+
+    WHATS NEW:
+        - redid User.login(), returns an ArrayList<Cookie> type now
+        - .add() now updates object.id with db id
+        - redid .logout()
+ */
 public class User {
     public Integer id = null;
     public String email = null;
@@ -188,7 +199,6 @@ public class User {
         if(checkPassword.equals(this.password)){
             return true;
         }
-
         return false;
     }
 
@@ -207,7 +217,7 @@ public class User {
         Db db = new Db();
         db.getConnection();
 
-        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(1, this.email);
             pstmt.setString(2, this.password);
             pstmt.setString(3, this.type);
@@ -219,7 +229,14 @@ public class User {
                 pstmt.setString(4, this.driver_id);
             }
 
-            pstmt.executeUpdate();
+            int result = pstmt.executeUpdate();
+
+            if(result == 1){
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    this.id = rs.getInt(1);
+                }
+            }
 
             message = new Message(
                 true,
@@ -248,6 +265,10 @@ public class User {
     }
 
     public Message update(){
+        if(this.id == null){
+            throw new IllegalArgumentException("Error: Missing required fields!");
+        }
+
         Message message = new Message();
         String sql = "UPDATE Users SET email = ?, password = ?, type = ? where id = ?";
 
@@ -281,49 +302,52 @@ public class User {
         return message;
     }
 
-    public Cookie[] login(){
-        Cookie[] cookies = new Cookie[3];
-        Cookie auth_cookie = null;
-        Cookie user_type_cookie = null;
-        Cookie id_cookie = null;
+    public ArrayList<Cookie> login(){
+        ArrayList<Cookie> cookies = new ArrayList<>();
+
+        Cookie auth_cookie = new Cookie("authentication", null);
+        Cookie id_cookie = new Cookie("id", null);
+        Cookie type_cookie = new Cookie("type", null);
+        Boolean authenticated = false;
 
         User check_user = new User(this.email);
         check_user.getByEmail();
 
-        if(check_user.email == null){
-            check_user = null;
+        if(check_user.password != null){
+            authenticated = check_user.authenticated(this.password);
         }
-        if(check_user == null){
-            return cookies;
-        }
-
-        Boolean authenticated = check_user.authenticated(this.password);
 
         if(authenticated){
             auth_cookie = new Cookie("authentication", this.email);
             this.type = check_user.type;
-            this.customer_id = check_user.customer_id;
-            this.driver_id = check_user.driver_id;
+            type_cookie = new Cookie("type", this.type);
 
-            user_type_cookie = new Cookie("Type", this.type);
-            if(this.type.equals("customer")){
-                id_cookie = new Cookie("id", this.customer_id.toString());
-            }
-            else if(this.type.equals("driver")){
-                id_cookie = new Cookie("id", this.driver_id);
+            switch (this.type) {
+                case "customer":
+                    this.customer_id = check_user.customer_id;
+                    id_cookie = new Cookie("id", this.customer_id.toString());
+                    break;
+                case "driver":
+                    this.driver_id = check_user.driver_id;
+                    id_cookie = new Cookie("id", this.driver_id);
+                    break;
+                default:
+                    id_cookie = new Cookie("id", null);
+                    break;
             }
         }
 
-        cookies[0] = auth_cookie;
-        cookies[1] = user_type_cookie;
-        cookies[2] = id_cookie;
+        cookies.add(auth_cookie);
+        cookies.add(type_cookie);
+        cookies.add(id_cookie);
         return cookies;
     }
 
-    public Cookie logout(){
-        Cookie cookie = new Cookie("Authentication", "");
-        cookie.setMaxAge(0);
-
-        return cookie;
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        for(Cookie cookie : request.getCookies()){
+            cookie.setValue("");
+            cookie.setMaxAge(-1);
+            response.addCookie(cookie);
+        }
     }
 }
