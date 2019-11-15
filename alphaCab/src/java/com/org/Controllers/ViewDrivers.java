@@ -20,6 +20,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author shaaik
  */
+
+/*
+    TODO: Move to git
+ */
 public class ViewDrivers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,7 +42,7 @@ public class ViewDrivers extends HttpServlet {
             }
         }
         catch (ServletException e){
-            response.getWriter().print("There was an error handling your request, Please go back!\n" + e.getMessage());
+            response.getWriter().print("There was an error handling your request, Please go back!<br>" + e.getMessage());
         }
     }
 }

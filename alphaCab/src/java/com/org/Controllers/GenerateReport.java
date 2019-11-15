@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.org.Helpers.Functions;
 import com.org.Models.Transaction;
 import com.org.Models.Journey;
 import com.org.Models.Driver;
@@ -21,28 +23,36 @@ import com.org.Models.Report;
  */
 public class GenerateReport extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)throws IOException{
-        request.setAttribute("report", null);
-        try{
-            request.getRequestDispatcher("/alphaCab/views/admin/report-generator.jsp").forward(request, response);
+        if(!Functions.authenticateRoute(request, "admin")){
+            Functions.redirect(response, "login");
         }
-        catch(ServletException e){
-            response.getWriter().print("There was an error handling your request, Please go back!\n" + e.getMessage());
+        else{
+            request.setAttribute("report", null);
+            try{
+                request.getRequestDispatcher("/views/admin/report-generator.jsp").forward(request, response);
+            } catch(ServletException e){
+                response.getWriter().print("There was an error handling your request, Please go back!<br>" + e.getMessage());
+            }
         }
     }
     
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String start_date = request.getParameter("startDate");
-        String end_date = request.getParameter("endDate");
-        
-        Report report = new Report();
-        report.getAmounts(start_date, end_date);
-        
-        request.setAttribute("report", report);
-        try{
-            request.getRequestDispatcher("/alphaCab/views/admin/report-generator.jsp").forward(request, response);
+        if(!Functions.authenticateRoute(request, "admin")){
+            Functions.redirect(response, "login");
         }
-        catch(ServletException e){
-            response.getWriter().print("There was an error handling your request, Please go back!\n" + e.getMessage());
+        else{
+            String start_date = request.getParameter("startDate");
+            String end_date = request.getParameter("endDate");
+
+            Report report = new Report();
+            report.getAmounts(start_date, end_date);
+
+            request.setAttribute("report", report);
+            try{
+                request.getRequestDispatcher("/views/admin/report-generator.jsp").forward(request, response);
+            } catch(ServletException e){
+                response.getWriter().print("There was an error handling your request, Please go back!<br>" + e.getMessage());
+            }
         }
     }
 }

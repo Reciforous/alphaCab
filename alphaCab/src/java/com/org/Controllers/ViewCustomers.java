@@ -38,7 +38,7 @@ public class ViewCustomers extends HttpServlet {
             }
         }
         catch (ServletException e){
-            response.getWriter().print("There was an error handling your request, Please go back!\n" + e.getMessage());
+            response.getWriter().print("There was an error handling your request, Please go back!<br>" + e.getMessage());
         }
     }
 

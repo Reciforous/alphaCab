@@ -5,6 +5,7 @@
  */
 package com.org.Controllers;
 
+import com.org.Helpers.Configs;
 import com.org.Helpers.Message;
 import com.org.Models.Demand;
 import com.org.Models.Driver;
@@ -27,7 +28,7 @@ public class RegisterDrivers extends HttpServlet {
             request.getRequestDispatcher("/views/admin/drivers/register.jsp").forward(request, response);
         }
         catch (ServletException e){
-            response.getWriter().print("There was an error handling your request, Please go back!\n" + e.getMessage());
+            response.getWriter().print("There was an error handling your request, Please go back!<br>" + e.getMessage());
         }
     }
     
@@ -43,7 +44,6 @@ public class RegisterDrivers extends HttpServlet {
         Message message = driver.add();
         User user = new User(email, password, type, registration);
         message = user.add();
-        response.sendRedirect("/alphaCab/admin/drivers");
- 
+        response.sendRedirect(Configs.url_prefix + "admin/drivers");
     }
 }
