@@ -9,6 +9,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import com.org.Models.Demand;
 
+/*
+    TODO: Move to git
+
+    WHATS NEW:
+        - since response writes HTML instead of \n you need <br>
+ */
 public class ViewDemands extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try{
@@ -18,7 +24,7 @@ public class ViewDemands extends HttpServlet {
 
         }
         catch (ServletException e){
-            response.getWriter().print("There was an error handling your request, please go back!\n" + e.getMessage());
+            response.getWriter().print("There was an error handling your request, please go back!<br>" + e.getMessage());
         }
     }
 }

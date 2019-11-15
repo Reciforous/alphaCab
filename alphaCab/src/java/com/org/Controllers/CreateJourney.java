@@ -5,6 +5,7 @@
  */
 package com.org.Controllers;
 
+import com.org.Helpers.Functions;
 import com.org.Helpers.Message;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -31,15 +32,10 @@ public class CreateJourney extends HttpServlet{
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         
         Cookie[] cookies = request.getCookies();
-        Cookie id_cookie = null;
-        for(Cookie cookie : cookies){
-            if(cookie.getName().equals("id")){
-                id_cookie = cookie;
-                break;
-            }
-        }
+        Cookie id_cookie = Functions.getCookie(cookies, "id");
         
         try{
+            assert id_cookie != null;
             int id = Integer.parseInt(id_cookie.getValue());
             String destination = (String) request.getParameter("destination");
             int distance = Integer.parseInt((String) request.getParameter("distance"));
@@ -49,10 +45,10 @@ public class CreateJourney extends HttpServlet{
             Message message = journey.add();
 
             request.setAttribute("message", message);
-            request.getRequestDispatcher("/alphacab/views/customer/create-journey.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/customer/create-journey.jsp").forward(request, response);
         }
         catch (ServletException e){
-            response.getWriter().print("There was an error handling your request please go back!\n" + e.getMessage());
+            response.getWriter().print("There was an error handling your request please go back!<br>" + e.getMessage());
         }
     }
 }
