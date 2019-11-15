@@ -5,6 +5,7 @@
  */
 package com.org.Controllers;
 
+import com.org.Helpers.Configs;
 import com.org.Helpers.Message;
 import com.org.Models.Customer;
 import com.org.Models.Driver;
@@ -21,6 +22,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author shaaik
  */
+
+/* TODO: Move this to git
+        - Removed Shaaiks old code and replaced with a simple version with error handling
+*/
 public class RegisterCustomer extends HttpServlet {
 @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,7 +33,7 @@ public class RegisterCustomer extends HttpServlet {
             request.getRequestDispatcher("/views/customer/register.jsp").forward(request, response);
         }
         catch (ServletException e){
-            response.getWriter().print("There was an error handling your request, Please go back!\n" + e.getMessage());
+            response.getWriter().print("There was an error handling your request, Please go back!<br>" + e.getMessage());
         }
     }
     
@@ -39,16 +44,24 @@ public class RegisterCustomer extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String type = "customer";
-        
-        ArrayList<Customer> customers = Customer.getAllCustomers();
-        
-        Integer new_id = customers.get(customers.size() - 1).id + 1;
+
 
         Customer customer = new Customer(name, address);
         Message message = customer.add();
-        
-        User user = new User(email, password, type, new_id);
-        message = user.add();
-        response.sendRedirect("/alphaCab/");
+
+        if(!message.status){
+            response.getWriter().print("Error: " + message.content);
+        }else{
+            User user = new User(email, password, type, customer.id);
+            message = user.add();
+            if(!message.status){
+                response.getWriter().print("Error: " + message.content);
+            }
+            else{
+                response.sendRedirect(Configs.url_prefix + "login");
+            }
+        }
+
+
     }
 }
