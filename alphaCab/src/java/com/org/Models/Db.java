@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Db {
-    private static final String CONNECTION_URI = "jdbc:derby://localhost:1527/alphacab1";
+    private static final String CONNECTION_URI = "jdbc:derby://localhost:1527/alphacab";
 
     public java.sql.Connection connection;
 

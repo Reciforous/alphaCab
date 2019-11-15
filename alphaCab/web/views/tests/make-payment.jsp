@@ -1,4 +1,3 @@
-<%-- TODO: Add to git --%>
 <%@ page import="com.org.Models.Transaction" %>
 <%@ page import="com.org.Models.Customer" %>
 <%@ page import="com.org.Models.Journey" %>
@@ -17,16 +16,15 @@
 	Customer customer = null;
 	Float amount = null;
 	Boolean paid = (Boolean) request.getAttribute("paid");
-
 	if(message.status){
 		journey = (Journey) request.getAttribute("journey");
 		customer = (Customer) request.getAttribute("customer");
 	%>
-	    <% if(paid){ %>
+		<% if(paid){ %>
 			<div>
 				<p><% out.print(message.content); %></p>
 			</div>
-	    <% } %>
+		<% } %>
 		<form action='<% out.print(Configs.url_prefix + "pay/" + journey.id); %>' method="POST">
 			<label for="customer">Customer Name</label>
 			<input type="text" readonly value='<% out.print(customer.name); %>'>
@@ -38,7 +36,6 @@
 			<input type="text" name="amount" readonly value='<% out.print(journey.distance * 2.75); %>'>
 
 			<button type="submit">Pay Now</button>
-			<a href='<% out.print(Configs.url_prefix + "home"); %>'>Go Back</a>
 		</form>
 	<%} else{%>
 		<div>

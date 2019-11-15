@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Customer Driver</h1>
-        <form action="/alphaCab/customer/register" method="POST">
+        <form action="/register" method="POST">
             <div>
                <div>
                    <label>Name</label>
