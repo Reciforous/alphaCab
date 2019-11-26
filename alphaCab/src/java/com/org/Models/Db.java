@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class Db {
 
-    private static final String CONNECTION_URI = "jdbc:mysql://localhost:3306/alphacab";
+    private static final String CONNECTION_URI = "jdbc:mysql://localhost:1527/alphacab";
 
     public java.sql.Connection connection;
 
