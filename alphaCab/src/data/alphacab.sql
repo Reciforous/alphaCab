@@ -109,3 +109,14 @@ CREATE TABLE Transactions (
    amount FLOAT NOT NULL,
    FOREIGN KEY (journey_id) REFERENCES Journey (jid)
 );
+
+CREATE TABLE DemandQueue (
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    demand_id int NOT NULL UNIQUE,
+    customer_id int NOT NULL UNIQUE,
+    driver_id varchar(10) UNIQUE,
+    FOREIGN KEY (demand_id) REFERENCES Demands (id),
+    FOREIGN KEY (customer_id) REFERENCES Customer (id),
+    FOREIGN KEY (driver_id) REFERENCES Drivers (registration),
+    PRIMARY KEY (id)
+);
