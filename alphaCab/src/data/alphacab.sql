@@ -1,20 +1,28 @@
 --DROP Table Customer;
+DROP TABLE Transactions;
+DROP TABLE DemandQueue;
+DROP TABLE Journey;
+Drop TABLE Demands;
+Drop TABLE Users;
+Drop TABLE Customer;
+Drop TABLE Drivers;
+
 CREATE TABLE Customer (
+  id int not null GENERATED ALWAYS AS IDENTITY(START WITH 1, INCREMENT BY 1),
   Name varchar(20),
   Address varchar(60),
-  id int not null GENERATED ALWAYS AS IDENTITY(START WITH 1, INCREMENT BY 1),
   PRIMARY KEY (id)
 );
 
 
-INSERT INTO Customer (Name, Address, id) VALUES
-('Eva Smith', '129 Station Rd, London, N3 2AS', 1),
-('Rob Manton', '23 Bow Lane, London, N3', 2),
-('Bob Currie', '54 Teignmouth Rd, London, NW2', 3),
-('Jim Hunter', '765 High Road, London, N12', 4),
-('Phil Johnson', '75 Squires Lane, London, N3', 5),
-('Saim Soyler', '2 Rosemary Ave, London, N3', 6),
-('Gul Hikmet', '31 Clifton Rd, London, N3 2SG', 7);
+INSERT INTO Customer (Name, Address) VALUES
+('Eva Smith', '129 Station Rd, London, N3 2AS'),
+('Rob Manton', '23 Bow Lane, London, N3'),
+('Bob Currie', '54 Teignmouth Rd, London, NW2'),
+('Jim Hunter', '765 High Road, London, N12'),
+('Phil Johnson', '75 Squires Lane, London, N3'),
+('Saim Soyler', '2 Rosemary Ave, London, N3'),
+('Gul Hikmet', '31 Clifton Rd, London, N3 2SG');
 
 -- --------------------------------------------------------
 --DROP Table Demands;
@@ -30,8 +38,8 @@ CREATE TABLE Demands (
 );
 
 
-INSERT INTO Demands (id, Name, Address, Destination, Date, Time, Status) VALUES
-(1, 'M. E. Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding');
+INSERT INTO Demands (Name, Address, Destination, Date, Time, Status) VALUES
+('M. E. Aydin', 'Finchley, London', 'King''s Cross, London', '2015-11-02', '09:22:18', 'Outstanding');
 
 -- --------------------------------------------------------
 --DROP Table Drivers;
@@ -64,15 +72,13 @@ CREATE TABLE Journey (
 Alter table Journey add foreign key (id) references Customer;
 Alter table Journey add foreign key (Registration) references Drivers;
 
-INSERT INTO Journey (jid, Destination, Distance, id, Registration, Date, Time) VALUES
-(1, 'King''s Cross Station, London', 5, 1, 'BN60WKA', '2015-10-14', '09:30:00'),
-(2, 'Heathrow Terminal 3, London', 20, 7, 'BN60WKA', '2015-10-14', '12:00:00'),
-(3, '120 Green Lanes, London, N13', 7, 7, 'AK52VZV', '2015-10-15', '06:00:00'),
-(4, '131 Stoke Newington High Road, London, N12', 8, 7, 'AK52VZV', '2015-10-15', '12:00:00'),
-(5, 'Luton Airport, Luton', 30, 1, 'R34AKP', '2015-10-22', '10:00:00');
+INSERT INTO Journey (Destination, Distance, id, Registration, Date, Time) VALUES
+('King''s Cross Station, London', 5, 1, 'BN60WKA', '2015-10-14', '09:30:00'),
+('Heathrow Terminal 3, London', 20, 7, 'BN60WKA', '2015-10-14', '12:00:00'),
+('120 Green Lanes, London, N13', 7, 7, 'AK52VZV', '2015-10-15', '06:00:00'),
+('131 Stoke Newington High Road, London, N12', 8, 7, 'AK52VZV', '2015-10-15', '12:00:00'),
+('Luton Airport, Luton', 30, 1, 'R34AKP', '2015-10-22', '10:00:00');
 
-------------------------- Custom Tables -------------------------
--- if auto increment doesnt work please test this stackoverflow code - https://stackoverflow.com/questions/3308329/create-autoincrement-key-in-java-db-using-netbeans-ide
 CREATE TABLE Users (
    id INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
    email varchar(300) NOT NULL UNIQUE,
@@ -94,7 +100,7 @@ INSERT INTO Users (email, password, type, cid, did) VALUES
 ('gulhikmet@example.com', 'test123', 'customer', 7, NULL),
 ('johnsmith@example.com', 'driver123', 'driver', NULL, 'AK52VZV'),
 ('mehmetaydin@example.com', 'driver123', 'driver', NULL, 'BN60WKA'),
-('markjohnson@example.com', 'driver123', 'driver', Null, 'R34AKP')
+('markjohnson@example.com', 'driver123', 'driver', Null, 'R34AKP'),
 ('zain@example.com', 'admin123', 'admin', NULL, NULL),
 ('nasru@example.com', 'admin123', 'admin', NULL, NULL),
 ('shaaik@example.com', 'admin123', 'admin', NULL, NULL),
@@ -111,7 +117,7 @@ CREATE TABLE Transactions (
 );
 
 CREATE TABLE DemandQueue (
-    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    id int NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     demand_id int NOT NULL UNIQUE,
     customer_id int NOT NULL UNIQUE,
     driver_id varchar(10) UNIQUE,
