@@ -8,8 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Db {
+<<<<<<< HEAD
 
     private static final String CONNECTION_URI = "jdbc:mysql://localhost:1527/alphacab";
+=======
+    private static final String CONNECTION_URI = "jdbc:mysql://localhost:3306/alphacab";
+>>>>>>> fdf2fda5ceb545099a26e11ab7fe31d8ddc6ef97
 
     public java.sql.Connection connection;
 
