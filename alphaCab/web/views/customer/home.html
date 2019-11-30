@@ -2,16 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dashboard</title>
+    
+    <link rel="stylesheet" href="/alphaCab/static/css/material.min.css">
+    <script src="/alphaCab/static/js/material.min.js"></script>
+    <link rel="stylesheet" href="/alphaCab/static/css/customCss.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 </head>
 <body>
-    <p>Welcome Customer</p>
-    <a href="/order">Order a cab</a>
-    <br>
-    <a href="/order/pending">Check order status</a>
-    <br>
-    <a href="/journies">View journies</a>
-    <br>
-    <a href="/alphaCab/logout">Logout</a>
+    
+    <!--navigation-->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+          <div class="mdl-layout__header-row bg-navy-blue" style="padding-left: 40px;">
+          <!-- Title -->
+          <span>
+            <i class="material-icons font-yellow">
+                local_taxi &nbsp;
+            </i>
+          </span>
+          <span class="mdl-layout-title">&#945;-Cab</span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <!-- Navigation. We hide it in small screens. -->
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
+            <a class="mdl-navigation__link" href="/alphaCab/journies">Journies</a>
+            <a class="mdl-navigation__link" href="/alphaCab/order/pending">Order status</a>
+            <a class="mdl-navigation__link" href="/alphaCab/logout">Logout</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="mdl-layout__content">
+        <div class="page-content">
+            
+            <div class="mdl-grid center-items">
+                <div class="mdl-cell mdl-cell--8-col">
+                    <div class="row">
+                        <br>
+                        <h3 class="display-2">Welcome Customer!</h3> 
+                        <br>
+                        <a href="/alphaCab/order" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored bg-orange">Order a cab</a>
+                        <br>
+                    </div>      
+                </div>
+                
+            </div>
+       
+        </div>
+      </main>
+    </div>
+    
+
+    
 </body>
 </html>
