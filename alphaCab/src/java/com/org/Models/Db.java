@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class Db {
 
 
-    private static final String CONNECTION_URI = "jdbc:derby://localhost:1527/alphacab1";
+    private static final String CONNECTION_URI = "jdbc:derby://localhost:1527/alphacab";
 
     public java.sql.Connection connection;
 
@@ -20,7 +20,7 @@ public class Db {
 
     public void getConnection(){
         try{
-            this.connection = DriverManager.getConnection(CONNECTION_URI, "alphacab", "alphacab");
+            this.connection = DriverManager.getConnection(CONNECTION_URI, "root", "test123");
         }
         catch(SQLException e){
             System.out.println("state: " + e.getSQLState());

@@ -46,6 +46,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/alphaCab/admin/transactions">Transactions<span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/alphaCab/admin/report">Reports<span class="sr-only">(current)</span></a>
+                    </li>
                 </ul>
             </div>
         </nav>
