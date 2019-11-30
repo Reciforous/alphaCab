@@ -4,6 +4,7 @@
     Author     : shaaik
 --%>
 
+<%@page import="com.org.Models.Journey"%>
 <%@page import="com.org.Models.Transaction"%>
 <%@page import="com.org.Models.Driver"%>
 <%@page import="java.util.ArrayList"%>
@@ -17,10 +18,10 @@
 
         <script src="/alphaCab/static/js/bootstrap.min.js"></script>
 
-        <title>Admin - Transactions</title>
+        <title>Admin - Journeys</title>
     </head>
     <body>
-        <% ArrayList<Transaction> transactions = (ArrayList<Transaction>) request.getAttribute("transactions"); %>
+        <% ArrayList<Journey> transactions = (ArrayList<Journey>) request.getAttribute("journeys"); %>
         
    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -36,13 +37,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/alphaCab/admin/customers">Customers<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="/alphaCab/admin/journeys">Journeys<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/alphaCab/admin/demands">Demands<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="/alphaCab/admin/transactions">Transactions<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
@@ -51,7 +52,7 @@
         <br>
         <div class="container">
             <div class="row">
-                <div class="col-6"><h3>Transactions</h3></div>
+                <div class="col-6"><h3>Journeys</h3></div>
             </div>
               
             <br>
@@ -59,32 +60,38 @@
             <table class="table table-striped">
             <thead>
                 <tr>
-                <th>Id</th>
                 <th>Journey ID</th>
+                <th>Destination</th>
                 <th>Amount</th>
-                <th>Date</th>                
+                <th>Registration</th>                
+                <th>Date</th>
                 <th></th>
+
 
 
             </tr>
               </thead>
               <tbody>
-                <% for(Transaction transaction : transactions){%>
+                <% for(Journey transaction : transactions){%>
                     <tr>
                         <td>
                             <% out.print(transaction.id); %>
                         </td>
+                     
                         <td>
-                            <% out.print(transaction.journey_id); %>
-                        </td> 
-                        <td>
-                            <% out.print(transaction.amount); %>
+                            <% out.print(transaction.destination); %>
                         </td>
                         <td>
-                            <% out.print(transaction.transaction_date); %>
+                            <% out.print(transaction.distance); %>
                         </td>
                         <td>
-                            <a href="/alphaCab/admin/drivers">View Details</a>
+                            <% out.print(transaction.registration); %>
+                        </td>
+                        <td>
+                            <% out.print(transaction.date); %>
+                        </td>
+                        <td>
+                            <a href="/alphaCab/admin/drivers">Cancel</a>
                         </td>
                     </tr>
                 <%}%>
