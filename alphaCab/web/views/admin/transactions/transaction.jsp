@@ -21,4 +21,5 @@
         <p>Transaction Date: <% out.print(transaction.transaction_date); %></p>
         <p>Amount: <% out.print(transaction.amount); %></p>
     </body>
+    
 </html>

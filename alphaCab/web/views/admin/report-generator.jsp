@@ -8,6 +8,7 @@
 <%@page import="java.util.ArrayList"  %>
 <%@page import="com.org.Models.Report" %>
 <%@page import="com.org.Models.Driver" %>
+<%@page import="com.org.Helpers.Configs" %>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +17,13 @@
         <title>Report Generator</title>
     </head>
     <body>
-        <% Report report = (Report) request.getAttribute("report"); %>
+        <% 
+        Report report = (Report) request.getAttribute("report"); 
+        Float total = 0.0f;
+        for(Float amount : report.amounts){
+            total += amount;
+        }
+        %>
         <% if(report != null){ %>
             <% for(int i = 0; i < report.drivers.size(); i++){ %>
             <div>
@@ -25,12 +32,15 @@
                 	<li>Amount Earned: <% out.print(report.amounts.get(i)); %></li>
                 </ul>
             </div>
-            <a href="/admin/home">Go back</a>
+            <div>
+            </div>
             <% } %>
-        <% } %>
-        <% else{ %>
+            <hr>
+            <p>Total amount: <% out.print(total); %></p>
+            <a href='<% out.print(Configs.url_prefix + "admin/home"); %>'>Go back</a>
+        <% } else{ %>
 			<div>
-				<form action="" method="POST">
+				<form action='<% out.print(Configs.url_prefix + "admin/report"); %>' method="POST">
 					<div>
 						<label for="startDate">Select start date</label>
 						<input type="date" name="startDate" required>
