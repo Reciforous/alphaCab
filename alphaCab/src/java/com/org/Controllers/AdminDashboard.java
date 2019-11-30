@@ -22,7 +22,7 @@ public class AdminDashboard extends HttpServlet {
         }
         else{
             try{
-                request.getRequestDispatcher("/views/admin/home.html").forward(request, response);
+                request.getRequestDispatcher("/views/admin/home.jsp").forward(request, response);
             }
             catch(ServletException e){
                 response.getWriter().print("There was an error handling your request, please go back!<br>" + e.getMessage());
