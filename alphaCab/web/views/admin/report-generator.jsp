@@ -20,8 +20,11 @@
         <% 
         Report report = (Report) request.getAttribute("report"); 
         Float total = 0.0f;
-        for(Float amount : report.amounts){
-            total += amount;
+
+        if(report != null ){
+            for(Float amount : report.amounts){
+                total += amount;
+            }
         }
         %>
         <% if(report != null){ %>
