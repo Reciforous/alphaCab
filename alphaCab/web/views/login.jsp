@@ -16,6 +16,7 @@
                 background-repeat: no-repeat !important;
                 background-size: cover !important;
                 background-position: center;
+                height: 100% !important;
             }
 
         .center{
@@ -42,7 +43,7 @@
                         &#945; Cab
                     </h3>
                 </div>
-                <form action="/login" method="POST" style="width: 100%; padding-right: 0px;">
+                <form action="login" method="POST" style="width: 100%; padding-right: 0px;">
                     <div class="mdl-card__supporting-text">
                         <% if(message != null){ %>
                             <div class="mdl-textfield mdl-js-textfield">

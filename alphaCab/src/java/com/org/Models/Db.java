@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Db {
-    private static final String CONNECTION_URI = "jdbc:mysql://localhost:3306/alphacab";
+
+
+    private static final String CONNECTION_URI = "jdbc:derby://localhost:1527/alphacab";
 
     public java.sql.Connection connection;
 
@@ -18,7 +20,7 @@ public class Db {
 
     public void getConnection(){
         try{
-            this.connection = DriverManager.getConnection(CONNECTION_URI, "root", "FragMent@44569");
+            this.connection = DriverManager.getConnection(CONNECTION_URI, "root", "test123");
         }
         catch(SQLException e){
             System.out.println("state: " + e.getSQLState());
