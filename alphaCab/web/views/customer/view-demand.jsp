@@ -14,7 +14,7 @@
 	Demand demand = (Demand) request.getAttribute("demand"); 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	%>
-	<div>
+	<div id="app">
 		<div>
 			<% if(demand != null){ %>
 			<form action="<% out.print(Configs.url_prefix + "order/complete"); %>" method="POST">
@@ -25,11 +25,11 @@
 				</div>
 				<div>
 					<label>Address: </label>
-					<input name="address" type="text" readonly value="<% out.print(demand.address); %>">
+					<input name="address" id="address" type="text" readonly value="<% out.print(demand.address); %>">
 				</div>
 				<div>
 					<label>Destination: </label>
-					<input name="destination" type="text" readonly value="<% out.print(demand.destination); %>">
+					<input name="destination" id="destination" type="text" readonly value="<% out.print(demand.destination); %>">
 				</div>
 				<div>
 					<p>Date ordered: <% out.print(sdf.format(demand.date)); %></p>
@@ -38,9 +38,12 @@
 				<%-- This parts needs to be done with javascript, use address and destination to make a post request to --%>
 				<%-- maps api, fix value for distance and amount through javascript current set rate on backend for journey is 2.75--%>
 				<div>
-					<input type="number" name="distance" hidden readonly value="10">
+					<label for="distance">Distance in meters:</label>
+					<input type="number" name="distance" readonly v-model="distance">
+				</div>
+				<div>
 					<label for="amount">Amount: </label>
-					<input readonly type="number" step="0.01" min="0.00" value="20.04">
+					<input readonly v-model="amount" type="number" step="0.01" min="0.00">
 				</div>
 				<% if(demand.status.equals("Accepted")){ %>
 				<div>
@@ -65,5 +68,10 @@
 			<%}%>
 		</div>
 	</div>
+	<script src="/alphaCab/static/js/jquery-3.2.1.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5c-jK4r3n2qvCE5UU-b4r5A_m5KVaOos"></script>
+	<script src="/alphaCab/static/js/axios.min.js"></script>
+	<script src="/alphaCab/static/js/vue.js"></script>
+	<script src="/alphaCab/static/js/getDistance.js"></script>
 </body>
 </html>
