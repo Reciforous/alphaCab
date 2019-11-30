@@ -27,17 +27,19 @@ public class Report {
     }
     
     public void getAmounts(String start_date, String end_date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.sql.Timestamp db_start_date = null;
         java.sql.Timestamp db_end_date = null;
         try{            
             db_start_date = new java.sql.Timestamp(sdf.parse(start_date).getTime());
+            System.out.println("start date: " + db_start_date.toString());
             db_end_date = new java.sql.Timestamp(sdf.parse(end_date).getTime());
+            System.out.println("end date: " + db_end_date.toString());
         }
         catch(ParseException e){
-            
+            System.out.println(e.getMessage());
         }
-        String sql = "SELECT t.amount FROM Transactions as t INNER JOIN Journey AS j ON j.jid = t.journey_id WHERE j.registration = ? and t.transaction_date >= ? and t.transactiion_date <= ?";
+        String sql = "SELECT t.amount FROM Transactions as t INNER JOIN Journey AS j ON j.jid = t.journey_id WHERE j.registration = ? and t.transaction_date >= ? and t.transaction_date <= ?";
         Db db = new Db();
         db.getConnection();
         
@@ -52,6 +54,7 @@ public class Report {
                 ResultSet rs = pstmt.executeQuery();
                 
                 while(rs.next()){
+                    System.out.print("Results got");
                     driver_earnings += rs.getFloat("amount");
                 }
                 this.amounts.add(driver_earnings);
