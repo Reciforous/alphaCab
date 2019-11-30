@@ -6,8 +6,8 @@
 <html>
 <head>
 	<title>View Order</title>
-	<link rel="stylesheet" href="/static/css/material.min.css">
-    <script src="/static/js/material.min.js"></script>
+	<link rel="stylesheet" href="/alphaCab/static/css/material.min.css">
+    <script src="/alphaCab/static/js/material.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
     	.text-center {
