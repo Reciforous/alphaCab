@@ -1,6 +1,7 @@
 package com.org.Controllers;
 
 import com.org.Helpers.Functions;
+import com.org.Helpers.Message;
 import com.org.Models.User;
 
 import javax.servlet.RequestDispatcher;
@@ -31,7 +32,7 @@ public class Login extends HttpServlet {
         }
         else{
             try{
-                request.getRequestDispatcher("/views/login.html").forward(request, response);
+                request.getRequestDispatcher("/views/login.jsp").forward(request, response);
             } catch(ServletException e){
                 response.getWriter().print("There was an error handling your request, Please go back!<br>" + e.getMessage());
             }
@@ -73,12 +74,35 @@ public class Login extends HttpServlet {
                 }
             }
             else{
-                response.getWriter().print("Wrong email or password");
+                Message message = new Message(
+                        false,
+                        "Wrong email or password",
+                        "error"
+                );
+                request.setAttribute("message", message);
+                try{
+                    request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+                }
+                catch(ServletException e){
+                    response.getWriter().print("There was an error handling your request, Please go back!<br>" + e.getMessage());
+                }
             }
         }
         catch (NullPointerException e){
             response.getWriter().print("Wrong email or password");
             e.printStackTrace();
+            Message message = new Message(
+                    false,
+                    "Wrong email or password",
+                    "error"
+            );
+            request.setAttribute("message", message);
+            try{
+                request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+            }
+            catch(ServletException x){
+                response.getWriter().print("There was an error handling your request, Please go back!<br>" + x.getMessage());
+            }
         }
     }
 }

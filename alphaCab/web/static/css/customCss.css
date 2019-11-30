@@ -1,0 +1,22 @@
+.bg-navy-blue {
+    background: #293462 !important;
+}
+.bg-orange {
+    background: #EC9B3B !important;
+}
+.bg-yellow {
+    background: #F7BE16 !important;
+}
+.bg-green {
+    background: #00818A !important;
+}
+.font-yellow {
+    color: #F7BE16 !important;
+}
+.font-orange {
+    color: #EC9B3B !important;
+}
+.mdl-grid.center-items {
+    justify-content: center;
+    text-align: center;
+}
