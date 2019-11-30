@@ -166,6 +166,14 @@
         <servlet-name>RegisterDrivers</servlet-name>
         <url-pattern>/admin/drivers/register</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>GenerateReport</servlet-name>
+        <servlet-class>com.org.Controllers.GenerateReport</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GenerateReport</servlet-name>
+        <url-pattern>/admin/report</url-pattern>
+    </servlet-mapping>	
     <!--Driver routes-->
     <servlet>
         <servlet-name>ViewOutstandingDemands</servlet-name>
