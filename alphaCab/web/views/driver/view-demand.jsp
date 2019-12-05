@@ -24,7 +24,7 @@
 		message = (Message) request.getAttribute("message");
 	}
 	%>
-	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" id="app">
 		<header class="mdl-layout__header" style="background-color: black;">
             <div class="mdl-layout__header-row">
                 <span class="mdl-layout-title">Dashboard</span>
@@ -55,8 +55,10 @@
 								<div class="mdl-cell--3-col"><h6>Customer Name </h6><% out.print(demand.name); %></div>
 							</div>
 							<div class="mdl-grid">
-								<div class="mdl-cell--3-col"><h6>Address </h6><% out.print(demand.address); %></div>
-								<div class="mdl-cell--3-col"><h6>Destination </h6><% out.print(demand.destination); %></div>
+								<input id="address" type="text" hidden value="<% out.print(demand.address); %>" v-model="address">
+								<div class="mdl-cell--3-col"><h6>Address </h6>{{ addressText }}</div>
+								<input id="destination" type="text" hidden value="<% out.print(demand.destination); %>" v-model="destination">
+								<div class="mdl-cell--3-col"><h6>Destination </h6>{{ destinationText }}</div>
 								<div class="mdl-cell--3-col"><h6>Requested Date </h6><b><% out.print(sdf.format(demand.date)); %></b></div>
 							</div>
 							<div class="mdl-grid">
@@ -92,5 +94,10 @@
 			</div>
 		</main>
 	</div>
+	<script src="/alphaCab/static/js/jquery-3.2.1.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5c-jK4r3n2qvCE5UU-b4r5A_m5KVaOos"></script>
+	<script src="/alphaCab/static/js/axios.min.js"></script>
+	<script src="/alphaCab/static/js/vue.js"></script>
+	<script src="/alphaCab/static/js/getJourneyDetails.js"></script>
 </body>
 </html>
