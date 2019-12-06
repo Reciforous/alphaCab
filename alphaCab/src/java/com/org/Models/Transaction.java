@@ -5,13 +5,16 @@ import com.org.Helpers.Message;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+
 
 /*
     TODO: Move this to git
 
     WHATS NEW:
         - .add() now updates object.id with db id
+        - .getTransactionForDriver 7/12/2019
  */
 public class Transaction {
     public Integer id = null;
@@ -75,6 +78,61 @@ public class Transaction {
         }
 
         return message;
+    }
+
+    public static ArrayList<Transaction> getTransactionsForDriver(Driver driver){
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        String sql = "SELECT t.id, t.journey_id, t.amount, t.transaction_date FROM Transactions as t INNER JOIN Journey AS j ON j.jid = t.journey_id WHERE j.registration = ? and t.transaction_date >= ? and t.transaction_date <= ?";
+
+        Date begining, end;
+
+        // Get start date of month
+        {
+            Calendar calendar = Functions.getCalendarForNow();
+            calendar.set(Calendar.DAY_OF_MONTH,
+                    calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+            Functions.setTimeToBeginningOfDay(calendar);
+            begining = calendar.getTime();
+        }
+
+        // Get end date of month
+        {
+            Calendar calendar = Functions.getCalendarForNow();
+            calendar.set(Calendar.DAY_OF_MONTH,
+                    calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            Functions.setTimeToEndofDay(calendar);
+            end = calendar.getTime();
+        }
+
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            pstmt.setString(1, driver.registration);
+            pstmt.setTimestamp(2, new java.sql.Timestamp(begining.getTime()));
+            pstmt.setTimestamp(3, new java.sql.Timestamp(end.getTime()));
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                Transaction transaction = new Transaction(
+                        rs.getInt("id"),
+                        rs.getInt("journey_id"),
+                        new Date(rs.getTimestamp("transaction_date").getTime()),
+                        rs.getFloat("amount")
+                );
+
+                transactions.add(transaction);
+            }
+        }
+        catch(SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally{
+            Functions.closeDbConnection(db.connection);
+        }
+
+        return transactions;
     }
 
     public static ArrayList<Transaction> getTransactions(){

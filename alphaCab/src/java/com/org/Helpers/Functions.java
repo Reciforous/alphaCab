@@ -10,6 +10,9 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /* TODO - Move to git
 
@@ -131,5 +134,25 @@ public class Functions {
         }
         // Return null if not present
         return null;
+    }
+
+    public static Calendar getCalendarForNow() {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(new Date());
+        return calendar;
+    }
+
+    public static void setTimeToBeginningOfDay(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+    }
+
+    public static void setTimeToEndofDay(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
     }
 }
