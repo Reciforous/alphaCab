@@ -138,7 +138,7 @@
                                                     <div id="destinationMap" class="map"></div>
                                                 </div>
                                                 <br>
-                                                <div class="mdl-card__actions mdl-card--border" style="text-align: right;">
+                                                <div class="mdl-card__actions mdl-card--border" style="text-align: right; border-top: none; padding-right: 0;">
                                                     <a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="<% out.print(Configs.url_prefix + "home"); %>">Go back</a>
                                                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent bg-green" type="submit">Order</button>
                                                 </div>
