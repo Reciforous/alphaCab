@@ -1,5 +1,5 @@
 <%@page import="com.org.Helpers.Message" %>
-
+<%@page import="com.org.Helpers.Configs" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +64,7 @@
                         <button type="submit" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                             Login
                         </button>
-                        <a href="/register" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                        <a href="<% out.print(Configs.url_prefix + "register"); %>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                             Register
                         </a>
                     </div>
