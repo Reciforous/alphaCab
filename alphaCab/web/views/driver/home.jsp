@@ -72,7 +72,7 @@
                             <h4 class="mdl-card__title-text">Journies</h4>
                         </div>
                         <div class="mdl-card__supporting-text">
-                            Total Journies Made: <% out.print(total_journies); %>
+                            Total Journies Made This Month: <% out.print(total_journies); %>
                             <br>
                             Total Amount Made: <% out.print(amount); %>
                         </div>
