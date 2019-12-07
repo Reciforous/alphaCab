@@ -166,7 +166,7 @@ public class Journey {
         }
 
         ArrayList<Journey> journies = new ArrayList<>();
-        String sql = "SELECT jid, id, Destination, Distance, Date, Time FROM Journey WHERE id = ?";
+        String sql = "SELECT jid, id, Destination, Distance, Date, Time FROM Journey WHERE Registration = ?";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Db db = new Db();
@@ -267,48 +267,7 @@ public class Journey {
 
         return journies;
     }
-public static ArrayList<Journey> getAll(){
-        ArrayList<Journey> journies = new ArrayList<>();
-        String sql = "SELECT jid, Destination, Distance, Registration, Date, Time FROM Journey";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        Db db = new Db();
-        db.getConnection();
-
-        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
-            ResultSet rs = pstmt.executeQuery();
-
-            while(rs.next()){
-                Integer id = rs.getInt("jid");
-                String destination = rs.getString("Destination");
-
-                Integer distance = rs.getInt("Distance");
-                String registration = rs.getString("Registration");
-
-                // MESSY AND BAD IMPLEMENTATION
-                java.sql.Date dbdate = rs.getDate("Date");
-                java.sql.Time dbtime = rs.getTime("Time");
-                Date date = null;
-                try{
-                    date = sdf.parse(dbdate.toString() + " " + dbtime.toString());
-                }
-                catch (ParseException e){
-                    System.out.println("Error: Could not parse date");
-                }
-                Journey journey = new Journey(id, 1, destination, distance, registration, date);
-                
-                journies.add(journey);
-            }
-        }
-        catch (SQLException e){
-            Functions.printSQLError(e);
-        }
-        finally {
-            Functions.closeDbConnection(db.connection);
-        }
-
-        return journies;
-    }
     /***
      * Get single journey record using journey id
      * Usage eg:
@@ -359,6 +318,44 @@ public static ArrayList<Journey> getAll(){
             Functions.closeDbConnection(db.connection);
         }
     }
+
+    public static ArrayList<Journey> getAll(){
+        ArrayList<Journey> journies = new ArrayList<>();
+        String sql = "SELECT jid, Destination, Distance, Registration, Date, Time FROM Journey";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Db db = new Db();
+        db.getConnection();
+
+        try(PreparedStatement pstmt = db.connection.prepareStatement(sql)){
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()){
+                Integer id = rs.getInt("jid");
+                String destination = rs.getString("Destination");
+                Integer distance = rs.getInt("Distance");
+                String registration = rs.getString("Registration");
+                // MESSY AND BAD IMPLEMENTATION
+                java.sql.Date dbdate = rs.getDate("Date");
+                java.sql.Time dbtime = rs.getTime("Time");
+                Date date = null;
+                try{
+                    date = sdf.parse(dbdate.toString() + " " + dbtime.toString());
+                }
+                catch (ParseException e){
+                    System.out.println("Error: Could not parse date");
+                }
+                Journey journey = new Journey(id, 1, destination, distance, registration, date);
+                journies.add(journey);
+            }
+        }
+        catch (SQLException e){
+            Functions.printSQLError(e);
+        }
+        finally {
+            Functions.closeDbConnection(db.connection);
+        }
+        return journies;
+    }
+
 
     /**
      * Inserts new record to database

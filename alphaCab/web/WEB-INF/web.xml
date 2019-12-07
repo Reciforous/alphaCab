@@ -223,4 +223,12 @@
         <servlet-name>AcceptDemand</servlet-name>
         <url-pattern>/driver/order/accept/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewDriverJournies</servlet-name>
+        <servlet-class>com.org.Controllers.ViewDriverJournies</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewDriverJournies</servlet-name>
+        <url-pattern>/driver/journies</url-pattern>
+    </servlet-mapping>
 </web-app>
