@@ -22,6 +22,15 @@
         <script src="/alphaCab/static/js/bootstrap.min.js"></script>
 
         <title>Admin - Demands</title>
+        <style>
+            .btn-link{
+                color: #dc3545;
+                padding-top: 0 !important;
+            }
+            .btn-link:focus, .btn-link:hover{
+                color: #dc3545;
+            }
+        </style>
     </head>
     <body>
         <%
