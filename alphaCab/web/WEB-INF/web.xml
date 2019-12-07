@@ -231,4 +231,12 @@
         <servlet-name>ViewDriverJournies</servlet-name>
         <url-pattern>/driver/journies</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewDriverJourney</servlet-name>
+        <servlet-class>com.org.Controllers.ViewDriverJourney</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewDriverJourney</servlet-name>
+        <url-pattern>/driver/journey/view/*</url-pattern>
+    </servlet-mapping>	
 </web-app>
