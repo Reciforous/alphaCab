@@ -1,4 +1,5 @@
 <%@page import="com.org.Models.Journey" %>
+<%@page import="com.org.Helpers.Configs"%>
 
 <!DOCTYPE html>
 <html>
@@ -91,7 +92,7 @@
                             </div>
                             <div class="mdl-card__actions mdl-card--border" style="text-align: right;">
                                 <a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="/alphaCab/journies">Go back</a>
-                                <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent bg-green" href=<% out.print("/pay/" + journey.id); %>>
+                                <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent bg-green" href="<% out.print(Configs.url_prefix + "pay/" + journey.id); %>">
                                   pay now
                                 </a>
                             </div>
