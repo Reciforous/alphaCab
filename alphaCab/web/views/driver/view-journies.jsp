@@ -29,15 +29,15 @@
             <span class="mdl-layout-title">Dashboard</span>
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation mdl-layout--large-screen-only">
-                <a href="/logout" class="mdl-navigation__link">Logout</a>
+                <a href="<% out.print(Configs.url_prefix + "logout"); %>" class="mdl-navigation__link">Logout</a>
             </nav>
         </div>
     </header>
     <div class="mdl-layout__drawer">
 	    <span class="mdl-layout-title">Dashboard</span>
 	    <nav class="mdl-navigation">
-			<a class="mdl-navigation__link" href="/driver/orders">View outstanding orders</a>
-			<a class="mdl-navigation__link" href="/driver/order/accepted">View Accepted Order</a>
+			<a class="mdl-navigation__link" href="<% out.print(Configs.url_prefix + "driver/orders"); %>">View outstanding orders</a>
+			<a class="mdl-navigation__link" href="<% out.print(Configs.url_prefix + "driver/order/accepted"); %>">View Accepted Order</a>
 	    </nav>
 	</div>
 	<main class="mdl-layout__content" style="background-color: grey;">
@@ -100,7 +100,7 @@
         					You currently have not made any journies!
         				</div>
         				<div class="mdl-card__actions mdl-card--border">
-        					<a href="/driver/home" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Go Back</a>
+        					<a href="<% out.print(Configs.url_prefix + "driver/home"); %>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Go Back</a>
         				</div>
     				</div>
 					<% } %>
