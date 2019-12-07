@@ -77,6 +77,7 @@
                 <th>Address</th>
                 <th>Destination</th>                
                 <th>Date</th>
+                <th>Status</th>
                 <th></th>
             </tr>
               </thead>
@@ -100,7 +101,15 @@
                             <% out.print(sdf.format(transaction.date)); %>
                         </td>
                         <td>
+                            <% out.print(transaction.status); %>
+                        </td>
+
+                        <td>
+                            <% if(!transaction.status.equals("Canceled")){ %>
                             <a href="<% out.print(Configs.url_prefix + "admin/demand/cancel/" + transaction.id); %>" class="btn btn-link">Cancel</a>
+                            <% } else{ %>
+                            <button class="btn btn-link" disabled>Cancel</button>
+                            <% } %>
                         </td>
                     </tr>
                 <%}%>
