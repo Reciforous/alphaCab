@@ -7,8 +7,9 @@
 <html>
 <head>
     <title>View Journies</title>
+	<link rel="stylesheet" href="/alphaCab/static/css/material.min.css">
     <script src="/alphaCab/static/js/material.min.js"></script>
-	<script src="/alphaCab/static/js/datepicker.standalone.js"></script>
+
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
