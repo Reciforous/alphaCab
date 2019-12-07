@@ -43,7 +43,7 @@
 		</div>
 		<main class="mdl-layout__content" style="background-color: grey;">
 			<div class="mdl-grid" style="display: flex; justify-content: center;">
-				<div class="mdl-cell--8-col">
+				<div class="mdl-cell--8-col" style="display: flex; justify-content: center;">
 					<% if(demand != null){ %>
 					<div class="mdl-card mdl-shadow--2dp" style="width: 100%">
 						<div class="mdl-card__title">
@@ -78,7 +78,7 @@
         				</div>
 					</div>
 					<% } else{ %>
-					<div class="mdl-card mdl-shadow--2dp" style="width: 100%">
+					<div class="mdl-card mdl-shadow--2dp">
 						<div class="mdl-card__title">
 							<h3 class="mdl-card__title-text" style="text-align: center;">No Order accepted</h3>
 							<hr>
