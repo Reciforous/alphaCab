@@ -40,7 +40,7 @@ public class RegisterDrivers extends HttpServlet {
         String password = request.getParameter("password");
         String type = "driver";
 
-        Driver driver = new Driver(name, registration);
+        Driver driver = new Driver(registration, name);
         Message message = driver.add();
         User user = new User(email, password, type, registration);
         message = user.add();

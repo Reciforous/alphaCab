@@ -25,13 +25,13 @@
                         <a class="nav-link" href="/alphaCab/admin/drivers">Drivers<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/alphaCab/admin/drivers">Customers<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/alphaCab/admin/customers">Customers<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/alphaCab/admin/drivers">Journeys<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/alphaCab/admin/journeys">Journeys<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/alphaCab/admin/drivers">Demands<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/alphaCab/admin/demands">Demands<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
