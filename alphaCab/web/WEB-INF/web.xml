@@ -18,6 +18,14 @@
         <servlet-name>AdminDemands</servlet-name>
         <url-pattern>/admin/demands</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminCancelDemand</servlet-name>
+        <servlet-class>com.org.Controllers.AdminCancelDemand</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminCancelDemand</servlet-name>
+        <url-pattern>/admin/demand/cancel/*</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login</welcome-file>
     </welcome-file-list>
