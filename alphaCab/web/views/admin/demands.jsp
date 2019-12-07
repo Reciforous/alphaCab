@@ -9,6 +9,7 @@
 <%@page import="com.org.Models.Transaction"%>
 <%@page import="com.org.Models.Driver"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -22,7 +23,10 @@
         <title>Admin - Demands</title>
     </head>
     <body>
-        <% ArrayList<Demand> demands = (ArrayList<Demand>) request.getAttribute("demands"); %>
+        <%
+        ArrayList<Demand> demands = (ArrayList<Demand>) request.getAttribute("demands");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        %>
         
    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -73,9 +77,6 @@
                 <th>Destination</th>                
                 <th>Date</th>
                 <th></th>
-
-
-
             </tr>
               </thead>
               <tbody>
@@ -95,13 +96,10 @@
                             <% out.print(transaction.destination); %>
                         </td>
                         <td>
-                            <% out.print(transaction.date); %>
+                            <% out.print(sdf.format(transaction.date)); %>
                         </td>
                         <td>
-                            <%-- <form action="/alphaCab/admin/demands?demand=<% out.print(transaction.id); %>" method="post"> --%>
-                                <a href="<% out.print(Configs.url_prefix + "admin/demand/cancel/" + transaction.id); %>" class="btn btn-link">Cancel</a>
-                            <%-- </form> --%>
-                            <!--<a href="/alphaCab/admin/demands?demand<% out.print(transaction.id); %>">Cancel</a>-->
+                            <a href="<% out.print(Configs.url_prefix + "admin/demand/cancel/" + transaction.id); %>" class="btn btn-link">Cancel</a>
                         </td>
                     </tr>
                 <%}%>
