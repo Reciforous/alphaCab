@@ -96,9 +96,9 @@
                         </td>
                         <td>
                             <form action="/alphaCab/admin/demands?demand=<% out.print(transaction.id); %>" method="post">
-                                <button type="submit" name="your_name" value="your_value" class="btn-link">Cancel</button>
+                                <button type="submit" name="your_name" value="your_value" class="btn btn-link">Cancel</button>
                             </form>
-                            <a href="/alphaCab/admin/demands?demand<% out.print(transaction.id); %>">Cancel</a>
+                            <!--<a href="/alphaCab/admin/demands?demand<% out.print(transaction.id); %>">Cancel</a>-->
                         </td>
                     </tr>
                 <%}%>
