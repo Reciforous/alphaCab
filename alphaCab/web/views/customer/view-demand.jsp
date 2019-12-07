@@ -80,7 +80,7 @@
                                         <div id="app">
                                                     <div>
                                                         <% if(demand != null){ %>
-                                                        <form action="<% out.print(Configs.url_prefix + " order/complete"); %>" method="POST">
+                                                        <form action="<% out.print(Configs.url_prefix + "order/complete"); %>" method="POST">
                                                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                                                 <input type="number" hidden readonly name="demandId" value="<% out.print(demand.id); %>" >
                                                                 <input class="mdl-textfield__input" name="customerName" type="text" readonly value="<% out.print(demand.name); %>">
