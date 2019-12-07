@@ -87,7 +87,7 @@
                             <% out.print(transaction.transaction_date); %>
                         </td>
                         <td>
-                            <a href="/alphaCab/admin/drivers">View Details</a>
+                            <a href="/alphaCab/admin/transaction/view/<% out.print(transaction.id); %>">View Details</a>
                         </td>
                     </tr>
                 <%}%>

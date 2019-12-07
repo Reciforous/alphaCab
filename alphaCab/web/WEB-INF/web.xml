@@ -158,6 +158,16 @@
         <servlet-name>ViewTransactions</servlet-name>
         <url-pattern>/admin/transactions</url-pattern>
     </servlet-mapping>
+    <!-- Edits-->
+    <servlet>
+        <servlet-name>ViewTransaction</servlet-name>
+        <servlet-class>com.org.Controllers.ViewTransaction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewTransaction</servlet-name>
+        <url-pattern>/admin/transaction/view/*</url-pattern>
+    </servlet-mapping>
+    <!--edits-->
     <servlet>
         <servlet-name>RegisterDrivers</servlet-name>
         <servlet-class>com.org.Controllers.RegisterDrivers</servlet-class>
