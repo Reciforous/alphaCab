@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.org.Helpers.Configs"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -46,7 +47,7 @@
                         &#945; Cab
                     </h3>
                 </div>
-                <form action="/register" method="POST" style="width: 100%; padding-right: 0px;">
+                <form action="<%out.print(Configs.url_prefix + "register");%>" method="POST" style="width: 100%; padding-right: 0px;">
                     <div class="mdl-card__supporting-text">
                         <h5 style="margin-top: 0">Registration</h5>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%">
