@@ -14,7 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="/alphaCab/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <script src="/alphaCab/static/js/bootstrap.min.js"></script>
-        <title>Customer</title>
+        <title>Driver</title>
     </head>
     <body>
         <!--Navbar-->
@@ -52,31 +52,25 @@
         
         <div class="container">
             <div class="row">
-                <div class="col-6"><h3>Customer!</h3></div>
+                <div class="col-6"><h3>Driver Details</h3></div>
             </div>
               
             <br>
             
             <div class="row">
                 <div class="col-6">
-                    
-                        
-                    <div>
-                            <form action='' method="POST">
-
-                                <div class="form-group">
-                                    <label for="registration">Registration</label>
-                                    <input type="text" class="form-control" aria-describedby="registration" readonly value="<% out.print(driver.registration); %>" >
-                                </div>                                     
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" class="form-control" aria-describedby="name" readonly value="<% out.print(driver.name); %>">
-                                </div>
-                                <br>
-                                <a href="/alphaCab/admin/drivers" class="btn btn-primary" role="button" aria-pressed="true">Go Back</a>
-                            </form>
-                    </div>
-                       
+                    <form>
+                        <div class="form-group">
+                            <label for="registration">Registration</label>
+                            <input type="text" class="form-control" aria-describedby="registration" readonly value="<% out.print(driver.registration); %>" >
+                        </div>                                     
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" aria-describedby="name" readonly value="<% out.print(driver.name); %>">
+                        </div>
+                        <br>
+                        <a href="/alphaCab/admin/drivers" class="btn btn-primary" role="button" aria-pressed="true">Go Back</a>
+                    </form>
                 </div>
             </div>
             

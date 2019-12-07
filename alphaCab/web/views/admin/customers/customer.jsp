@@ -52,7 +52,7 @@
         
         <div class="container">
             <div class="row">
-                <div class="col-6"><h3>Customer!</h3></div>
+                <div class="col-6"><h3>Customer Details</h3></div>
             </div>
             <br>
             <div class="row">
