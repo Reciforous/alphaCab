@@ -74,7 +74,7 @@
 								<button type="submit" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Cancel Order</button>	
 							</form>
 							<% } %>
-        					<a href="/driver/home" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Go Back</a>
+                                                <a href="<% out.print(Configs.url_prefix + "driver/home"); %>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Go Back</a>
         				</div>
 					</div>
 					<% } else{ %>

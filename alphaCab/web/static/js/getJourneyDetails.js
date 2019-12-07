@@ -3,8 +3,8 @@ var app = new Vue({
 	data: {
 		address: $('#address').val(),
 		destination: $('#destination').val(),
-		addressText: null,
-		destinationText: null
+		addressText: $('#address').val(),
+		destinationText: $('#destination').val()
 	},
 	methods: {
 		getDistance(){
@@ -16,17 +16,19 @@ var app = new Vue({
 
 			this.destination = this.destination.split(", ")
 			destination = new google.maps.LatLng(parseFloat(this.destination[0]), parseFloat(this.destination[1]))
+                        if(!(isNaN(origin.lat()) && isNaN(origin.lng()) && isNaN(destination.lat()) && isNaN(destination.lng()))){
+                            console.log('Im Hitting this')
+                            service = new google.maps.DistanceMatrixService()
+                            service.getDistanceMatrix(
+                                    {
+                                            origins: [origin],
+                                            destinations: [destination],
+                                            travelMode: 'DRIVING'
+                                    },
 
-			service = new google.maps.DistanceMatrixService()
-			service.getDistanceMatrix(
-				{
-					origins: [origin],
-					destinations: [destination],
-					travelMode: 'DRIVING'
-				},
-
-				this.callback
-			)
+                                    this.callback
+                            )
+                        }
 		},
 
 		callback(response, status) {

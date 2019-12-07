@@ -29,7 +29,7 @@
                 </nav>
             </div>
         </header>
-        <div class="mdl-layout__drawer" style="background:color: grey !important;">
+        <div class="mdl-layout__drawer" style="background-color: grey !important;">
 		    <span class="mdl-layout-title">Dashboard</span>
 		    <nav class="mdl-navigation">
 				<a class="mdl-navigation__link" href="<% out.print(Configs.url_prefix + "driver/orders"); %>">View outstanding orders</a>

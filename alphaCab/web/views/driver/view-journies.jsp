@@ -53,7 +53,7 @@
 			                        <input type="date" class="mdl-textfield__input" name="startDate" placeholder="" required>
 			                        <label class="mdl-textfield__label">Start Date</label>
 			                    </div>
-			                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100% margin-right: 20px;">
+			                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%; margin-right: 20px;">
 			                        <input type="date" class="mdl-textfield__input" name="endDate" placeholder="" required>
 			                        <label class="mdl-textfield__label">End Date</label>
 			                    </div>
