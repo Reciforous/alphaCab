@@ -25,11 +25,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
                         <a class="nav-link" href="/alphaCab/admin/drivers">Drivers<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="/alphaCab/admin/customers">Customers<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
@@ -45,6 +45,9 @@
                         <a class="nav-link" href="/alphaCab/admin/report">Reports<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
+                <span class="navbar-text pb-0 pt-0" >
+                    <a class="nav-link" href="/alphaCab/logout">Logout<span class="sr-only">(current)</span></a>
+                </span>
             </div>
         </nav>
         <br>
