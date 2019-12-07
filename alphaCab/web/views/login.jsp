@@ -64,7 +64,7 @@
                         <button type="submit" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                             Login
                         </button>
-                        <a href="/register" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                        <a href="/alphaCab/register" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                             Register
                         </a>
                     </div>
