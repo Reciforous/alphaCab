@@ -71,7 +71,7 @@
                 <th>Amount</th>
                 <th>Registration</th>                
                 <th>Date</th>
-                <th></th>
+                
 
 
 
@@ -96,9 +96,7 @@
                         <td>
                             <% out.print(transaction.date); %>
                         </td>
-                        <td>
-                            <a href="/alphaCab/admin/drivers">Cancel</a>
-                        </td>
+                        
                     </tr>
                 <%}%>
               </tbody>
